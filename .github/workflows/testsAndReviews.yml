@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Step 2 - Set up Node.js
-        uses: actions/setup-node@v2.5.2
+        uses: actions/setup-node@v2
         with: 
           node-version: '16'
           
@@ -31,12 +31,12 @@ jobs:
         run: npm ci
         
       - name: Step 4 - Set reviewers
+        env: 
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.repository }}
         run: |
-          TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          OWNER="${{ github.repository_owner }}"
-          REPO="${{ github.repository }}"
-          
           curl \
             -X POST \
             -H "Authorization: Bearer $TOKEN" \
@@ -45,8 +45,6 @@ jobs:
             -d '{
               "reviewers": ["mbildstein", "wnguye03", "li-lucia", "davidan1989", "YouruiR"]
             }'
-        
-      
       
 #job 2 - build
   build:

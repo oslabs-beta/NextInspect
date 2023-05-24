@@ -1,0 +1,70 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Node.js Continuous Integration
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "dev", "main" ]
+  pull_request:
+    branches: [ "dev", "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  auto_set_reviewers: 
+    name: Auto Set Reviewers
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Step 1 - checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Step 2 - Set up Node.js
+        uses: actions/setup-node@v2
+        with: 
+          node-version: 18
+          
+      - name: Step 3 - Run package-lock json replication
+        run: npm ci
+        
+      - name: Step 4 - Set reviewers
+        run: |
+          TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.repository }}"
+          
+          curl \
+            -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$OWNER/$REPO/pulls/$PR_NUMBER/requested_reviewers" \
+            -d '{
+              "reviewers": ["mbildstein", "wnguye03", "li-lucia", "davidan1989", "YouruiR"]
+            }'
+        
+      
+      
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Step 1 - Run package-lock json replication
+        run: npm ci
+        
+      - name: Step 2 - Run npm build 
+        run: npm run build --if-present
+        
+      - name: Step 3 - Run test
+        run: npm test --if-present

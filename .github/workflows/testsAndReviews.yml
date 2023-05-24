@@ -1,10 +1,8 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Node.js Continuous Integration
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Triggers the workflow on push or pull request events but only for "main" and "dev" branch
   push:
     branches: [ "dev", "main" ]
   pull_request:
@@ -13,8 +11,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+#jobs that will be ran on every PR or push
 jobs:
+#job 1 - automatically set reviewers
   auto_set_reviewers: 
     name: Auto Set Reviewers
     runs-on: ubuntu-latest
@@ -49,17 +48,13 @@ jobs:
         
       
       
-  # This workflow contains a single job called "build"
+#job 2 - build
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
       - name: Step 1 - Run package-lock json replication
         run: npm ci
         

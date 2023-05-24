@@ -20,10 +20,10 @@ jobs:
     
     steps: 
       - name: Step 1 - checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Step 2 - Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2.5.2
         with: 
           node-version: 18
           
@@ -53,13 +53,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Step 1 - checkout repository 
+        uses: actions/checkout@v3
 
-      - name: Step 1 - Run package-lock json replication
+      - name: Step 2 - Run package-lock json replication
         run: npm ci
         
-      - name: Step 2 - Run npm build 
+      - name: Step 3 - Run npm build 
         run: npm run build --if-present
         
-      - name: Step 3 - Run test
+      - name: Step 4 - Run test
         run: npm test --if-present

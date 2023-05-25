@@ -2,9 +2,7 @@ name: Node.js Continuous Integration
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for "main" and "dev" branch
-  push:
-    branches: [ "dev", "main" ]
+  # Triggers the workflow pull request events but only for "main" and "dev" branch
   pull_request:
     branches: [ "dev", "main" ]
 
@@ -18,14 +16,20 @@ jobs:
     name: Auto Set Reviewers
     runs-on: ubuntu-latest
     
+    strategy: 
+      matrix:
+        node-version: [14.x, 16.x, 18.x, 20.x]
+    
     steps: 
       - name: Step 1 - checkout repository
         uses: actions/checkout@v3
+        
+      
       
       - name: Step 2 - Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with: 
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
           
       - name: Step 3 - Run package-lock json replication
         run: npm ci

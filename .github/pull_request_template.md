@@ -1,3 +1,14 @@
+## Overview
+
+**Issue Type**
+
+- [x] Bug
+- [ ] Feature
+- [ ] Tech Debt
+
+**Description**
+A clear and concise description of the issue.
+
 **Ticket Item**
 
 **Figma link - optional**

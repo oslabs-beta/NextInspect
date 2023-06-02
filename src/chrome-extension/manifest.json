@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "NextInspect",
+  "version": "0.1.0",
+  "description": "Network observability tool for Next.JS",
+  "author": "Lucia Li, Michael Bildstein, Yourui Ruan, David An, William Nguyen",
+  "devtools_page": "index.html"
+}

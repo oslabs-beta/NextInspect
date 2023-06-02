@@ -1,0 +1,30 @@
+{
+  "name": "chrome-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension for nextinspect npm package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslabs-beta/NextInspect.git"
+  },
+  "author": "YouruiR, li-lucia, wnguye03, mbildstein",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/NextInspect/issues"
+  },
+  "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.8",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.3"
+  }
+}

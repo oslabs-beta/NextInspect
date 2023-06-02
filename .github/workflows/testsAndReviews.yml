@@ -7,44 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto_set_reviewers: 
-    name: Auto Set Reviewers
-    runs-on: ubuntu-latest
-    
-    strategy: 
-      matrix:
-        node-version: [14.x, 16.x, 18.x, 20.x]
-    
-    steps: 
-      - name: Step 1 - checkout repository
-        uses: actions/checkout@v3
-        
-      
-      
-      - name: Step 2 - Set up Node.js
-        uses: actions/setup-node@v3
-        with: 
-          node-version: ${{ matrix.node-version }}
-          
-      - name: Step 3 - Run package-lock json replication
-        run: npm ci
-        
-      - name: Step 4 - Set reviewers
-        env: 
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.repository }}
-        run: |
-          curl \
-            -X POST \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/$OWNER/$REPO/pulls/$PR_NUMBER/requested_reviewers" \
-            -d '{
-              "reviewers": ["mbildstein", "wnguye03", "li-lucia", "davidan1989", "YouruiR"]
-            }'
-      
   test_pull_request:
     runs-on: ubuntu-latest
 

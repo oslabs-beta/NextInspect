@@ -1,4 +1,4 @@
-interface DefaultError {
+export interface DefaultError {
     log: string;
     code: number;
     message: string;

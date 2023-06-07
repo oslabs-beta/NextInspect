@@ -1,6 +1,7 @@
 import express, { Express, NextFunction, Request, Response, ErrorRequestHandler } from 'express';
 import cors from 'cors';
 import { otelController } from './controllers/otelController';
+import { DefaultError } from '../types/server'
 import streamRouter from './routers/streamRouter';
 const PORT: number = 3002;
 

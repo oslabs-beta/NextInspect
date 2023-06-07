@@ -1,7 +1,7 @@
 chrome.devtools.panels.create(
   'NextInspect',
   'icon.png',
-  '../panel/index.html',
+  'src/pages/panel/index.html',
   (panel) => {
     console.log('panel loaded')
   },

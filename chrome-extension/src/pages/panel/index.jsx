@@ -5,4 +5,6 @@ import '../../assets/styles.css'
 const domNode = document.getElementById('root')
 const root = createRoot(domNode)
 
+console.log('panel/index.jsx reached')
+
 root.render(<App />)

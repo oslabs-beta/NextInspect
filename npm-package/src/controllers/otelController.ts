@@ -77,13 +77,11 @@ export const otelController: OtelControllerType = {
     data.startTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].startTimeUnixNano);
     data.endTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].endTimeUnixNano);
 
-    console.log('final',data);
-
     res.locals.telemetryData = data;
 
     return next()
   },
-  
+
   parseNodeRequest: (req: Request, data: data) => {
     const attributeArr = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes;
     const sizeAttribute = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes[12];

@@ -1,6 +1,6 @@
 import express, { Express, NextFunction, Request, Response, ErrorRequestHandler } from 'express';
 import cors from 'cors';
-import { otelController } from './controllers/otelController';
+// import { otelController } from './controllers/otelController';
 import { DefaultError } from '../types/server'
 import streamRouter from './routers/streamRouter';
 const PORT: number = 3002;
@@ -12,10 +12,10 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: true}));
 app.use('/stream', streamRouter)
-app.use('/', otelController.parseAllRequest, (req, res) => {
-    //set up sending data to the front end here
-    res.sendStatus(200);
-})
+// app.use('/', otelController.parseAllRequest, (req, res) => {
+//     //set up sending data to the front end here
+//     res.sendStatus(200);
+// })
 
 // express general error handler
 app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {

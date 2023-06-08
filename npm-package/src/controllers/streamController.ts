@@ -4,8 +4,9 @@ import { EventEmitter } from 'events';
 const otelEventEmitter = new EventEmitter();
 
 export const streamController = {
-    emitEvent: (req: Request, res: Response) => {
-        otelEventEmitter.emit('newOtelEvent', 'hello')
+    emitEvent: (req: Request, res: Response, next: NextFunction) => {
+        otelEventEmitter.emit('newOtelEvent', 'hello');
+        return next();
     },
 
     sendEvent: (req: Request, res: Response, next: NextFunction) => {

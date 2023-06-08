@@ -5,7 +5,7 @@ import * as path from 'path'
 import ManifestParser from '../manifest-parser'
 import type { PluginOption } from 'vite'
 
-const distDir = path.resolve(__dirname, '..', '..', '..', 'dist')
+const distDir = path.resolve(__dirname, '..', '..', 'dist')
 const publicDir = path.resolve(__dirname, '..', '..', '..', 'public')
 
 export default function makeManifest(
@@ -35,7 +35,7 @@ export default function makeManifest(
       if (config.isDev) {
         return
       }
-      makeManifest(publicDir)
+      makeManifest(distDir)
     },
   }
 }

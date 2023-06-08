@@ -7,6 +7,7 @@ const isDev = process.env.__DEV__ === 'true'
 const isProduction = !isDev
 
 export default defineConfig({
+  // plugins: [react(), makeManifest(manifest, { isDev })],
   plugins: [react(), makeManifest(manifest, { isDev })],
   build: {
     outDir: './dist',

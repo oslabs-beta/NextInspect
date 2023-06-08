@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// export default function App() {
-//   return (
-//     <>
-//       <p>App connected</p>
-//     </>
-//   )
-// }
-
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import {mockData} from './mockData.tsx'

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { OtelData } from '../types/types'
 
 type MainController = (req: Request, res: Response, next: NextFunction) => void
 type HelperController = (req: Request, data: any) => {}
@@ -6,21 +7,6 @@ type HelperController = (req: Request, data: any) => {}
 export interface OtelControllerType {
   parseAllRequest: MainController
   parseNodeRequest: HelperController
-}
-
-type data = {
-    traceId?: string,
-    spanId?: string,
-    applicationType?: string, 
-    originatingService?: string, 
-    method?: string, 
-    status?: number, 
-    protocol?: string, 
-    startTime?: number,
-    endTime?: number,
-    size?: number,
-    type?: string, 
-    urlEndpoint?: string
 }
 
 function unixNanoToMS(unixNano: number): number {
@@ -31,7 +17,7 @@ function unixNanoToMS(unixNano: number): number {
 
 export const otelController: OtelControllerType = {
   parseAllRequest: (req: Request, res: Response, next: NextFunction) => {
-    let data: data = {}
+    let data: OtelData = {}
 
     if (req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId) {
         data.traceId = req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId
@@ -82,7 +68,7 @@ export const otelController: OtelControllerType = {
     return next()
   },
 
-  parseNodeRequest: (req: Request, data: data) => {
+  parseNodeRequest: (req: Request, data: OtelData) => {
     const attributeArr = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes;
     const sizeAttribute = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes[12];
 

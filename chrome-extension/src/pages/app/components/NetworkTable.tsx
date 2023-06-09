@@ -1,9 +1,9 @@
 // import { useState } from 'react'
-import { IMockData } from '../mockData';
+import { OtelData } from "../../../types/types";
 
 
 interface NetworkTableProps {
-  data: IMockData[];
+  data: OtelData[];
 }
 
 
@@ -11,10 +11,11 @@ interface NetworkTableProps {
 const NetworkTable = ({data} : NetworkTableProps) => {
 
   // const [nameClick, setNameClick] = useState(false);
-
-  function calcTime(sTime: number, eTime: number){
-    return eTime - sTime;
-  }
+  // if (startTime)
+  // function calcTime(sTime?: number, eTime?: number): number | void {
+  //   if (sTime !== undefined && eTime !== undefined)
+  //   return eTime - sTime;
+  // }
 
   return (
       <table>
@@ -46,7 +47,7 @@ const NetworkTable = ({data} : NetworkTableProps) => {
               <td>{val.method}</td>
               <td>{val.status}</td>
               <td>{val.protocol}</td>
-              <td>{calcTime(val.startTime, val.endTime)} ms</td>
+              {/* <td>{calcTime(val.startTime, val.endTime)} ms</td> */}
               <td>{val.size}</td>
               <td>{val.type}</td>
               <td>{val.urlEndpoint}</td>

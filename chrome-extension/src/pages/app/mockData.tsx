@@ -6,7 +6,7 @@ export interface IMockData{
   method: string,
   status?: number,
   protocol?: string,
-  startTime: number,
+  startTime?: number,
   endTime: number,
   size?: number,
   type?: string,

@@ -1,4 +1,5 @@
 // import { useState } from 'react'
+import TableRow from './TableRow';
 import { OtelData } from "../../../types/types";
 
 
@@ -9,21 +10,13 @@ interface NetworkTableProps {
 
 
 const NetworkTable = ({data} : NetworkTableProps) => {
-
-  // const [nameClick, setNameClick] = useState(false);
-  // if (startTime)
-  // function calcTime(sTime?: number, eTime?: number): number | void {
-  //   if (sTime !== undefined && eTime !== undefined)
-  //   return eTime - sTime;
-  // }
+  let singleTrace = ''; // storing current traceId 
+  let newTrace = false; // boolean that checks if singleTrace has just been updated
+  let singleTraceData: IMockData[] = []; // storing all spanId objects that share one traceId
 
   return (
       <table>
         <tr>
-          {/* <th className='flexible-header' onClick={()=> setNameClick(!nameClick)}> 
-              Name {nameClick && 
-              <div className='arrow'
-              />}  */}
           <th>Trace ID</th>
           <th>Span ID</th>
           <th>Application Type</th>
@@ -35,24 +28,26 @@ const NetworkTable = ({data} : NetworkTableProps) => {
           <th>Size</th>
           <th>Type</th>
           <th>Endpoint</th>
-          
         </tr>
-        {data.map((val, key) => {
-          return(
-            <tr key={key}>
-              <td>{val.traceId}</td>
-              <td>{val.spanId}</td>
-              <td>{val.applicationType}</td>
-              <td>{val.originatingService}</td>
-              <td>{val.method}</td>
-              <td>{val.status}</td>
-              <td>{val.protocol}</td>
-              {/* <td>{calcTime(val.startTime, val.endTime)} ms</td> */}
-              <td>{val.size}</td>
-              <td>{val.type}</td>
-              <td>{val.urlEndpoint}</td>
-            </tr>
-          )
+        {data.map((val, index) => {
+          if(newTrace){
+            singleTraceData = [];
+            newTrace = false;
+          }
+          singleTraceData.push(val);
+          // if current elem is last elem
+          if(!data[index+1]){
+            return(
+              <TableRow data={singleTraceData} key={val.spanId}/>
+            )
+          }else if(data[index + 1].traceId !== singleTrace){
+            singleTrace = data[index + 1].traceId;
+            newTrace = true;
+            // console.log(singleTraceData)
+            return(
+              <TableRow data={singleTraceData} key={val.spanId}/>
+            )
+          }
         })}
     </table>    
   )

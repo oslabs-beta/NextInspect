@@ -20,7 +20,11 @@ const TableRow = ({data} : TableRowProps) => {
   return (
       <>
       <tr onClick={() => setRowClick(!rowClick)}>
-          <td>{data[0].traceId}</td>
+          <td>
+            {multipleSpans ? <div className={(rowClick && multipleSpans)? 'arrowDown':'arrow'}/> : null}
+            
+            {data[0].traceId}
+          </td>
           <td>{data[0].spanId}</td>
           <td>{data[0].applicationType}</td>
           <td>{data[0].originatingService}</td>

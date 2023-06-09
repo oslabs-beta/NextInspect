@@ -4,7 +4,7 @@
   "description": "A Next.js network observability tool",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
+    "@babel/preset-typescript": "^7.21.5",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/core": "^1.13.0",
     "@opentelemetry/exporter-collector": "^0.25.0",
@@ -36,9 +37,17 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^29.5.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^29.5.0",
     "nodemon": "^2.0.22",
+    "superagent": "^8.0.9",
+    "supertest": "^6.3.3",
     "typescript": "^5.1.3"
   }
 }

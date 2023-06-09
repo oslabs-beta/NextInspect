@@ -33,3 +33,5 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
 app.listen(PORT, (): void => {
     console.log('NextInspect express npm package running on on port:' + PORT)
 });
+
+export default app

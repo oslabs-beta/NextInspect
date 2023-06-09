@@ -1,3 +1,8 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
 body {
   background-color: rgb(41, 42, 45);
   color: white;
@@ -46,7 +51,15 @@ th:hover{
 .arrow {
   height: 10px;
   width: 10px;
-  clip-path: polygon(50% 0%, 100% 50%, 0% 50%);
+  clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
   background-color: aliceblue;
 }
+
+.arrowDown {
+  height: 10px;
+  width: 10px;
+  clip-path: polygon(0% 50%, 100% 50%, 50% 100%);
+  background-color: aliceblue;
+}
+
 

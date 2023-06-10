@@ -21,10 +21,10 @@ const TableRow = ({data} : TableRowProps) => {
       <tr onClick={() => setRowClick(!rowClick)}>
           <td className={multipleSpans ? 'noPadding':'padding'}>
             {multipleSpans ? <div className={(rowClick && multipleSpans)? 'arrowDown':'arrow'}/> : null}
+            {data[0].traceId}
             
-            {data[0].name}
           </td>
-          <td>{data[0].traceId}</td>
+          <td>{data[0].name}</td>
           <td>{data[0].spanId}</td>
           <td>{data[0].applicationType}</td>
           <td>{data[0].originatingService}</td>
@@ -46,7 +46,7 @@ const TableRow = ({data} : TableRowProps) => {
             return (
               <tr className="span" key={key}>
                 <td></td>
-                <td></td>
+                <td>{val.name}</td>
                 <td>{val.spanId}</td>
                 <td>{val.applicationType}</td>
                 <td>{val.originatingService}</td>

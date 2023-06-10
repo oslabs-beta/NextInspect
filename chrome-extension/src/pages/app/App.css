@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -17,7 +21,7 @@ tr:nth-child(even) {
 
 table {
   border: 1.5px solid blue;
-  width: 100vw;
+  width: 100%;
   text-align: left;
   border-collapse: collapse;
 }
@@ -29,7 +33,7 @@ th{
 th, td {
   font-weight: normal;
   border-right: 1px solid rgb(144, 143, 143);
-  padding: 10px;
+  padding: 15px;
   font-size: small;
   max-width: 10px;
   max-height: 10px;
@@ -51,15 +55,21 @@ th:hover{
 .arrow {
   height: 10px;
   width: 10px;
+  display:inline-block;
   clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
   background-color: aliceblue;
+  margin-right: 5px;
 }
 
 .arrowDown {
   height: 10px;
   width: 10px;
+  display:inline-block;
   clip-path: polygon(0% 50%, 100% 50%, 50% 100%);
   background-color: aliceblue;
+  margin-right: 5px;
 }
 
-
+.noPadding {
+  padding: 15px 15px 15px 0;
+}

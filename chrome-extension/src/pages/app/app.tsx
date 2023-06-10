@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
-import { OtelData } from '../../types/types.ts';
+import WaterfallChart from './components/WaterfallGraph.tsx';
+import {updatedMockData, IMockData} from './mockData.tsx'
+import checkTraceId from './functions/checkTraceId.ts'
 
 function App() {
-    // would like to refactor so that requests that have already been rendered, do not need to be rendered again
-  const [networkRequests, setNetworkRequests] = useState<OtelData[]>([]);
+
+  const [networkRequests, setNetworkRequests] = useState<IMockData[]>([]);
 
 
   const sseStream = new EventSource('http://localhost:3002/stream/sse');
@@ -14,15 +16,14 @@ function App() {
     setNetworkRequests([...networkRequests, data])
   }
 
-  
+  const aggregatedData = checkTraceId(updatedMockData);
+
 
 
   return (
     <>
-    
-      <h1>NextInspect DevTool</h1>
-      <NetworkTable data={networkRequests}/>
-      
+      <WaterfallChart data={aggregatedData}/> 
+      <NetworkTable data={aggregatedData}/>
     </>
   )
 }

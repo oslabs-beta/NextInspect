@@ -60,7 +60,7 @@ export const otelController: OtelControllerType = {
       data = otelController.parseNodeRequest(req, data);
     }
     data.startTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].startTimeUnixNano);
-    console.log(data);
+    // console.log(data);
     data.endTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].endTimeUnixNano);
 
     if (data.method === data.name) data.method = '';

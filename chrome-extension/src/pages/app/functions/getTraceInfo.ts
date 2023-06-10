@@ -1,6 +1,7 @@
 // check how long the total traceDuration is by mapping over in one array of objects that share one traceId, all times and checking which time is smallest and biggest then getting the difference
 // return an object with traceDuration, traceStart, traceEnd
-import { IMockData } from "../mockData";
+import { OtelData } from "../../../types/types";
+// import { IMockData } from "../mockData";
 import { calcTotalTime } from "./calcTotalTime";
 
 // export interface ITraceTimeInfo{
@@ -20,7 +21,8 @@ export interface ITotalTimes{
 
 
 
-export function getTraceTimeInfo(singleTraceData: IMockData[]): ITotalTimes[]{
+// export function getTraceTimeInfo(singleTraceData: IMockData[]): ITotalTimes[]{
+export function getTraceTimeInfo(singleTraceData: OtelData[]): ITotalTimes[]{
   // return an array of totaltimes of each span in each singular trace
   const totalTimesSingleTrace: ITotalTimes[] = [];
   // while also keeping track of totals
@@ -74,12 +76,14 @@ export interface IAllTracesTimeInfo{
 }
 
 // function that creates each traceTimeInfo and pushes it into a bigger array
-export function getAllTracesTimeInfo(data: IMockData[][]): IAllTracesTimeInfo{
+// export function getAllTracesTimeInfo(data: IMockData[][]): IAllTracesTimeInfo{
+export function getAllTracesTimeInfo(data: OtelData[][]): IAllTracesTimeInfo{  
   const allTracesTimeInfo: ITotalTimes[][] = [];
   let earliestTime!: number;
   let earliestTimeSpanId!:string;
   
-  data.map((singleTraceData: IMockData[], index: number) => {
+  // data.map((singleTraceData: IMockData[], index: number) => {
+  data.map((singleTraceData: OtelData[], index: number) => {
 
     // if condition for testing purposes only
     if(index < 13){

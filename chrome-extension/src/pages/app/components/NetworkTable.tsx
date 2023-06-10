@@ -1,12 +1,14 @@
 // import { useState } from 'react'
 import TableRow from './TableRow';
-import { IMockData } from '../mockData';
+// import { IMockData } from '../mockData';
+import { OtelData } from '../../../types/types';
 
 
 
 
 interface NetworkTableProps {
-  data: IMockData[][];
+  // data: IMockData[][];
+  data: OtelData[][]
 }
 
 const NetworkTable = ({data} : NetworkTableProps) => {

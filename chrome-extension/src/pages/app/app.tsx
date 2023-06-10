@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
-import {mockData, IMockData} from './mockData.tsx'
+import WaterfallChart from './components/WaterfallGraph.tsx';
+import {updatedMockData, IMockData} from './mockData.tsx'
+import checkTraceId from './functions/checkTraceId.ts'
 
 function App() {
-  // would like to refactor so that requests that have already been rendered, do not need to be rendered again
+
   const [networkRequests, setNetworkRequests] = useState<IMockData[]>([]);
 
 
@@ -15,16 +17,14 @@ function App() {
     console.log(e.data)
   }
 
-  
+  const aggregatedData = checkTraceId(updatedMockData);
 
 
 
   return (
     <>
-    
-      <h1>NextInspect DevTool</h1>
-      <NetworkTable data={mockData}/>
-      
+      <WaterfallChart data={aggregatedData}/> 
+      <NetworkTable data={aggregatedData}/>
     </>
   )
 }

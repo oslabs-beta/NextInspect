@@ -31,7 +31,10 @@ const TableRow = ({data} : TableRowProps) => {
           <td>{data[0].method}</td>
           <td>{data[0].status}</td>
           <td>{data[0].protocol}</td>
-          <td>{!rowClick? traceTimeInfo[0].duration: traceTimeInfo[1].duration} ms
+          <td>{!rowClick? 
+              traceTimeInfo[0].duration: 
+              calcTotalTime(data[0].startTime, data[0].endTime)
+              } ms
           </td>
           {/* commented out data types for now for better UI during presentation */}
           {/* <td>{data[0].size ? data[0].size : 0}</td>

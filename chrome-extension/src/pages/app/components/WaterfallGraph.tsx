@@ -36,11 +36,12 @@ const options = {
     y: {
       ticks: {
         display: false
-      }
+      },
+      grid: {display: false}
     },
     x: {
       position: 'top' as const,
-    }
+    },
 
   },
   elements: {

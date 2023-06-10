@@ -14,8 +14,8 @@ const NetworkTable = ({data} : NetworkTableProps) => {
   return (
       <table>
         <tr>
-          <th>Name</th>
           <th>Trace ID</th>
+          <th>Name</th>
           <th>Span ID</th>
           <th>Application Type</th>
           <th>Orig. Svc.</th>

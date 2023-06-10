@@ -9,6 +9,7 @@ export interface OtelControllerType {
   parseNodeRequest: HelperController
 }
 
+
 function unixNanoToMS(unixNano: number): number {
     const unixMS = Math.floor(unixNano / 1e6);
     return unixMS;
@@ -37,19 +38,18 @@ export const otelController: OtelControllerType = {
 
       if (req.body.resourceSpans[0].scopeSpans[0]?.spans[0]?.name) {
         data.method = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
+        data.name = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
       }
+
+      
 
       const attributeArr = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes;
       for (let i = 0; i < attributeArr.length; i++) {
-        if (attributeArr[i].key === 'http.status_code')
-          data.status = attributeArr[i].value.intValue;
-      }
-
-      for (let i = 0; i < attributeArr.length; i++) {
-        if (attributeArr[i].key === 'http.flavor'){
-          data.protocol = attributeArr[i].value.stringValue;
-          break;
-        }
+        if (attributeArr[i].key === 'http.status_code') data.status = attributeArr[i].value.intValue;
+        if (attributeArr[i].key === 'http.flavor') data.protocol = attributeArr[i].value.stringValue;
+        if (attributeArr[i].key === 'http.target') data.name = attributeArr[i].value.stringValue;
+        if (attributeArr[i].key === 'http.request_content_length_uncompressed') data.size = attributeArr[i].value.intValue;
+        if (attributeArr[i].key === 'http.method') data.method = attributeArr[i].value.stringValue;
       }
   
     // if (req.body.resourceSpans[0].resource.attributes[4]?.value?.stringValue === 'next.js') {
@@ -59,9 +59,11 @@ export const otelController: OtelControllerType = {
     if (req.body.resourceSpans[0].resource.attributes[4]?.value?.stringValue === 'node.js') {
       data = otelController.parseNodeRequest(req, data);
     }
-
     data.startTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].startTimeUnixNano);
+    console.log(data);
     data.endTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].endTimeUnixNano);
+
+    if (data.method === data.name) data.method = '';
 
     res.locals.telemetryData = data;
 

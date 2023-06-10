@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { IMockData } from '../mockData';
+// import { IMockData } from '../mockData';
+import { OtelData } from '../../../types/types';
 
 
 interface TableRowProps {
-  data: IMockData[];
+  data: OtelData[];
 }
 
 

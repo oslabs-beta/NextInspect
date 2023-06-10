@@ -7,12 +7,10 @@ interface NetworkTableProps {
   data: OtelData[];
 }
 
-
-
 const NetworkTable = ({data} : NetworkTableProps) => {
   let singleTrace = ''; // storing current traceId 
   let newTrace = false; // boolean that checks if singleTrace has just been updated
-  let singleTraceData: IMockData[] = []; // storing all spanId objects that share one traceId
+  let singleTraceData: OtelData[] = []; // storing all spanId objects that share one traceId
 
   return (
       <table>
@@ -30,7 +28,7 @@ const NetworkTable = ({data} : NetworkTableProps) => {
           <th>Endpoint</th>
         </tr>
         {data.map((val, index) => {
-          if(newTrace){
+          if(newTrace === true){
             singleTraceData = [];
             newTrace = false;
           }

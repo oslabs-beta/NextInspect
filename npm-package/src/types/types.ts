@@ -16,5 +16,6 @@ export interface OtelData {
     endTime?: number,
     size?: number,
     type?: string, 
-    urlEndpoint?: string
+    urlEndpoint?: string,
+    name?: string
 }

@@ -21,6 +21,7 @@
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
     "chart.js": "^4.3.0",
+    "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0"

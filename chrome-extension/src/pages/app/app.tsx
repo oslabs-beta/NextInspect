@@ -14,7 +14,7 @@ function App() {
 
 
   const sseStream = new EventSource('http://localhost:3002/stream/sse');
-  sseStream.addEventListener('m')
+  // sseStream.addEventListener('message')
   sseStream.onmessage = (e) => {
     try {
       console.log(e.data);

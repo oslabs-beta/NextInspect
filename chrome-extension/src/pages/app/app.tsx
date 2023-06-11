@@ -6,6 +6,7 @@ import WaterfallChart from './components/WaterfallGraph.tsx';
 // import {updatedMockData } from './mockData.tsx'
 import checkTraceId from './functions/checkTraceId.ts'
 import { OtelData } from '../../types/types.ts';
+// import * as pako from 'pako';
 
 function App() {
 
@@ -14,17 +15,28 @@ function App() {
 
 
   const sseStream = new EventSource('http://localhost:3002/stream/sse');
-  // sseStream.addEventListener('message')
-  sseStream.onmessage = (e) => {
+  sseStream.addEventListener('message', (e)=> {
     try {
-      console.log(e.data);
-      const data:OtelData = e.data;
-      setNetworkRequests([...networkRequests, data]);
+      setNetworkRequests([...networkRequests, JSON.parse(e.data)])
     } catch (err) {
       console.log('failed', err)
     }
-
-  }
+  })
+  // sseStream.onmessage = (e) => {
+  //   try {
+  //     console.log(JSON.parse(e.data));
+  //     // const base64Data = e.data.split('data: ')[1];
+  //     // const compressedData = Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0));
+  //     // const uncompressedData = pako.ungzip(compressedData);
+  //     // const jsonString = new TextDecoder().decode(uncompressedData);
+  //     // const data = JSON.parse(e.data)
+  //     // const data = JSON.parse(jsonString);
+  //     // console.log('hello')
+  //     // setNetworkRequests([...networkRequests, data]);
+  //   } catch (err) {
+  //     console.log('failed', err)
+  //   }
+  // }
 
   // const aggregatedData = checkTraceId(updatedMockData);
   const aggregatedData = checkTraceId(networkRequests);

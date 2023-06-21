@@ -12,10 +12,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Setup node env
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm ci
-      - run: npm test --if-present
-        working-directory: npm-package
-      - run: npm run build --if-present
+      - name: Install dependencies    
+        run: npm ci
+      - name: Start express server
+        run: npm run dev
+          working-directory: npm-package
+      - name: Run backend tests
+        run: npm test
+          working-directory: npm-package

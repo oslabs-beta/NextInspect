@@ -17,4 +17,5 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm test --if-present
+        working-directory: npm-package
       - run: npm run build --if-present

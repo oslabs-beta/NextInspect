@@ -4,7 +4,7 @@
   "description": "A Next.js network observability tool",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon src/server.ts"
   },
   "repository": {
@@ -40,6 +40,8 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
     "typescript": "^5.1.3"
   }
 }

@@ -18,6 +18,9 @@ jobs:
           node-version: 18
       - name: Install dependencies    
         run: npm ci
+      - name: Build TS files
+        run: npm run build
+        working-directory: ./npm-package
       - name: Start express server
         run: npm start
         working-directory: ./npm-package

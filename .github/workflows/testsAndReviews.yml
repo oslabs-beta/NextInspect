@@ -20,7 +20,7 @@ jobs:
         run: npm ci
       - name: Start express server
         run: npm run dev
-          working-directory: npm-package
+        working-directory: ./npm-package
       - name: Run backend tests
         run: npm test
-          working-directory: npm-package
+        working-directory: ./npm-package

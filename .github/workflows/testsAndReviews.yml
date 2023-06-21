@@ -23,7 +23,7 @@ jobs:
         run: npm run build
         working-directory: ./npm-package
       - name: Start express server
-        run: npm start
+        run: npm start &
         working-directory: ./npm-package
       - name: Run backend tests
         run: npm test

@@ -7,21 +7,20 @@ function unixNanoToMS(unixNano) {
 }
 exports.otelController = {
     parseAllRequest: (req, res, next) => {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
         let data = {};
-        if ((_a = req.body.resourceSpans[0].scopeSpans[0].spans[0]) === null || _a === void 0 ? void 0 : _a.traceId) {
-            data.traceId = (_b = req.body.resourceSpans[0].scopeSpans[0].spans[0]) === null || _b === void 0 ? void 0 : _b.traceId;
+        if (req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId) {
+            data.traceId = req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId;
         }
-        if ((_c = req.body.resourceSpans[0].scopeSpans[0].spans[0]) === null || _c === void 0 ? void 0 : _c.spanId) {
-            data.spanId = (_d = req.body.resourceSpans[0].scopeSpans[0].spans[0]) === null || _d === void 0 ? void 0 : _d.spanId;
+        if (req.body.resourceSpans[0].scopeSpans[0].spans[0]?.spanId) {
+            data.spanId = req.body.resourceSpans[0].scopeSpans[0].spans[0]?.spanId;
         }
-        if ((_f = (_e = req.body.resourceSpans[0].resource.attributes[4]) === null || _e === void 0 ? void 0 : _e.value) === null || _f === void 0 ? void 0 : _f.stringValue) {
+        if (req.body.resourceSpans[0].resource.attributes[4]?.value?.stringValue) {
             data.applicationType = req.body.resourceSpans[0].resource.attributes[4].value.stringValue;
         }
-        if ((_j = (_h = (_g = req.body.resourceSpans[0].resource) === null || _g === void 0 ? void 0 : _g.attributes[0]) === null || _h === void 0 ? void 0 : _h.value) === null || _j === void 0 ? void 0 : _j.stringValue) {
-            data.originatingService = (_l = (_k = req.body.resourceSpans[0].resource.attributes[0]) === null || _k === void 0 ? void 0 : _k.value) === null || _l === void 0 ? void 0 : _l.stringValue;
+        if (req.body.resourceSpans[0].resource?.attributes[0]?.value?.stringValue) {
+            data.originatingService = req.body.resourceSpans[0].resource.attributes[0]?.value?.stringValue;
         }
-        if ((_o = (_m = req.body.resourceSpans[0].scopeSpans[0]) === null || _m === void 0 ? void 0 : _m.spans[0]) === null || _o === void 0 ? void 0 : _o.name) {
+        if (req.body.resourceSpans[0].scopeSpans[0]?.spans[0]?.name) {
             data.method = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
             data.name = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
         }
@@ -38,7 +37,7 @@ exports.otelController = {
             if (attributeArr[i].key === 'http.method')
                 data.method = attributeArr[i].value.stringValue;
         }
-        if (((_q = (_p = req.body.resourceSpans[0].resource.attributes[4]) === null || _p === void 0 ? void 0 : _p.value) === null || _q === void 0 ? void 0 : _q.stringValue) === 'node.js') {
+        if (req.body.resourceSpans[0].resource.attributes[4]?.value?.stringValue === 'node.js') {
             data = exports.otelController.parseNodeRequest(req, data);
         }
         data.startTime = unixNanoToMS(req.body.resourceSpans[0].scopeSpans[0].spans[0].startTimeUnixNano);
@@ -49,19 +48,18 @@ exports.otelController = {
         return next();
     },
     parseNodeRequest: (req, data) => {
-        var _a, _b, _c;
         const attributeArr = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes;
         const sizeAttribute = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes[12];
-        if ((sizeAttribute === null || sizeAttribute === void 0 ? void 0 : sizeAttribute.key) === 'size') {
+        if (sizeAttribute?.key === 'size') {
             data.size = sizeAttribute.value.intValue;
         }
         const requestHeaders = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes[0];
-        if ((requestHeaders === null || requestHeaders === void 0 ? void 0 : requestHeaders.key) === 'request-headers') {
+        if (requestHeaders?.key === 'request-headers') {
             let headers = JSON.parse(requestHeaders.value.stringValue);
             data.type = headers.accept.split(',')[0];
         }
-        if (((_a = attributeArr[0]) === null || _a === void 0 ? void 0 : _a.key) === 'http.url')
-            data.urlEndpoint = (_c = (_b = attributeArr[0]) === null || _b === void 0 ? void 0 : _b.value) === null || _c === void 0 ? void 0 : _c.stringValue;
+        if (attributeArr[0]?.key === 'http.url')
+            data.urlEndpoint = attributeArr[0]?.value?.stringValue;
         return data;
     },
 };

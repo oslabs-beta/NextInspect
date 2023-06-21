@@ -4,6 +4,7 @@
   "description": "A Next.js network observability tool",
   "main": "index.ts",
   "scripts": {
+    "start": "node src/server.ts",
     "test": "jest",
     "dev": "nodemon src/server.ts"
   },

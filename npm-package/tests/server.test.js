@@ -9,4 +9,10 @@ describe('Express Routes', () => {
                 .expect(404)
         })
     })
-})
+
+    describe('/stream', () => {
+        it('GET', () => {
+          return request(server).get('/stream').expect(404)
+        })
+      })
+    })

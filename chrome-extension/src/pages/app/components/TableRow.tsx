@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { IMockData } from '../mockData';
+// import { IMockData } from '../mockData';
 import { calcTotalTime } from '../functions/calcTotalTime';
 import { ITotalTimes, getTraceTimeInfo } from '../functions/getTraceInfo';
+import { OtelData } from '../../../types/types';
 
 
 interface TableRowProps {
-  data: IMockData[];
+  data: OtelData[];
 }
 
 

@@ -1,5 +1,6 @@
-import { IMockData } from "../mockData";
-import { getAllTracesTimeInfo, getTraceTimeInfo,IAllTracesTimeInfo,ITotalTimes } from "../functions/getTraceInfo";
+// import { IMockData } from "../mockData";
+// import { getAllTracesTimeInfo, getTraceTimeInfo,IAllTracesTimeInfo,ITotalTimes } from "../functions/getTraceInfo";
+import { getAllTracesTimeInfo, IAllTracesTimeInfo } from "../functions/getTraceInfo";
 import { getChartJSLabels, getChartJSTraceData } from "../functions/chartJSData";
 
 import {
@@ -12,11 +13,13 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { OtelData } from "../../../types/types";
 
 
 
 interface WaterfallChartProps {
-  data: IMockData[][];
+  // data: IMockData[][];
+  data: OtelData[][];
 }
 
 

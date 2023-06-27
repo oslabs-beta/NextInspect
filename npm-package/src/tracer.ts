@@ -32,7 +32,7 @@ const telemetryInitation = (applicationName: string, port: number) => {
     })
 
     // const jaegerTraceExporter = new JaegerExporter({endpoint: 'http://localhost:14268/api/traces'});
-    const nextInspectTraceExporter = new OTLPTraceExporter({ url: 'http://localhost:3002/' });
+    const nextInspectTraceExporter = new OTLPTraceExporter({ url: 'http://localhost:3002/stream/otel' });
 
     // provider.addSpanProcessor(new SimpleSpanProcessor(jaegerTraceExporter));
     provider.addSpanProcessor(new SimpleSpanProcessor(nextInspectTraceExporter));

@@ -16,7 +16,7 @@ export function getChartJSTraceData(allTracesTimeInfo: ITotalTimes[][], earliest
     const secondVal: number = firstVal + singleTraceData[0].duration;
     singleChartJSData.push(firstVal, secondVal);
     output.push(singleChartJSData);
-    console.log('singleChartJSData', singleChartJSData);
+    // console.log('singleChartJSData', singleChartJSData);
   })
 
   return output;

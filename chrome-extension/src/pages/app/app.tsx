@@ -3,17 +3,19 @@ import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
 import checkTraceId from './functions/checkTraceId.ts'
-import { OtelData } from '../../types/types.ts';
+import { OtelData, ITraceIdData} from '../../types/types.ts';
 
 function App() {
-  const [networkRequests, setNetworkRequests] = useState<OtelData[]>([]);
+  // const [networkRequests, setNetworkRequests] = useState<OtelData[]>([]);
+  const [traceIdData, setTraceIdData] = useState<ITraceIdData>({});
 
   useEffect(() => {
     const sseStream = new EventSource('http://localhost:3002/stream/sse');
     sseStream.addEventListener('message', (e) => {
       try {
         console.log(e.data);
-        setNetworkRequests(prevNetworkRequests => [...prevNetworkRequests, JSON.parse(e.data)]);
+        // setNetworkRequests(prevNetworkRequests => [...prevNetworkRequests, JSON.parse(e.data)]);
+        setTraceIdData(prevTraceIdData => checkTraceId(prevTraceIdData, JSON.parse(e.data)))
       } catch (err) {
         console.log('failed', err);
       }
@@ -22,17 +24,20 @@ function App() {
 
 
   useEffect(() => {
-    console.log(networkRequests);
-  }, [networkRequests]);
+    console.log(traceIdData);
+  }, [traceIdData]);
+
+
  
-  const aggregatedData = checkTraceId(networkRequests);
+  // const aggregatedData = checkTraceId(networkRequests);
+  
 
 
 
   return (
     <>
-      <WaterfallChart data={aggregatedData}/> 
-      <NetworkTable data={aggregatedData}/>
+      {/* <WaterfallChart data={aggregatedData}/> 
+      <NetworkTable data={aggregatedData}/> */}
     </>
   )
 }

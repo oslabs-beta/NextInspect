@@ -13,3 +13,7 @@ export interface OtelData {
     urlEndpoint?: string,
     name: string
 }
+
+export interface ITraceIdData {
+    [key: string]: OtelData[];
+};

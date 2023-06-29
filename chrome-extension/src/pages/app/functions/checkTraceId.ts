@@ -2,12 +2,13 @@ import { OtelData, ITraceIdData } from '../../../types/types';
 
 
 export default function checkTraceId(prevTraceIdData:ITraceIdData, incomingSpanData: OtelData): ITraceIdData {  
-  const newTraceIdData: ITraceIdData = {...prevTraceIdData};
+  const newTraceIdData: ITraceIdData = new Map([...prevTraceIdData.entries()]);
 
-  if(incomingSpanData.traceId in newTraceIdData){
-    newTraceIdData[incomingSpanData.traceId].push(incomingSpanData);
+  if(newTraceIdData.has(incomingSpanData.traceId)){
+    const existingData = newTraceIdData.get(incomingSpanData.traceId);
+    existingData?.push(incomingSpanData);
   }else{
-    newTraceIdData[incomingSpanData.traceId] = [incomingSpanData];
+    newTraceIdData.set(incomingSpanData.traceId,[incomingSpanData]);
   }
   return newTraceIdData;
 }

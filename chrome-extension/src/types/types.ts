@@ -14,6 +14,4 @@ export interface OtelData {
     name: string
 }
 
-export interface ITraceIdData {
-    [key: string]: OtelData[];
-};
+export type ITraceIdData = Map<string, OtelData[]>;

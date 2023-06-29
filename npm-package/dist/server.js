@@ -25,3 +25,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log('NextInspect express npm package running on on port:' + PORT);
 });
+exports.default = app;

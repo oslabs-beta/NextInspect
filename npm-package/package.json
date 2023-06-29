@@ -1,8 +1,11 @@
 {
   "name": "nextinspect",
   "version": "1.0.0",
-  "description": "A Next.js network observability tool",
-  "main": "index.ts",
+  "description": "Backend express server for the NextInspect app",
+  "exports": {
+    "./tracing": "./dist/tracing.js",
+    ".": "./dist/server.js"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "test": "jest",
@@ -30,6 +33,7 @@
     "@opentelemetry/instrumentation-http": "^0.39.1",
     "@opentelemetry/resources": "^1.13.0",
     "@opentelemetry/sdk-metrics": "^1.13.0",
+    "@opentelemetry/sdk-node": "^0.40.0",
     "@opentelemetry/sdk-trace-base": "^1.13.0",
     "@opentelemetry/sdk-trace-node": "^1.13.0",
     "@opentelemetry/semantic-conventions": "^1.13.0",

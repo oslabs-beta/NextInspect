@@ -24,11 +24,10 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
     console.log(err);
     return res.status(newErr.code).json(newErr.message);
 });
+
 // connect to express port
-app.listen(PORT, (): void => {
-    console.log('NextInspect express npm package running on on port:' + PORT)
+app.listen(PORT, () => {
+  console.log("NextInspect express npm package running on port: " + PORT);
 });
-// const server = () => {
-// }
-// export default server
+
 export default app;

@@ -6,8 +6,14 @@ import checkTraceId from './functions/checkTraceId.ts'
 import { OtelData, ITraceIdData} from '../../types/types.ts';
 
 function App() {
-  // const [networkRequests, setNetworkRequests] = useState<OtelData[]>([]);
   const [traceIdData, setTraceIdData] = useState<ITraceIdData>(new Map());
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message) => {
+      console.log('received chrome message', message)
+    })
+  }, []);
+    
 
   useEffect(() => {
     const sseStream = new EventSource('http://localhost:3002/stream/sse');

@@ -11,25 +11,34 @@ export const streamController = {
         // res.locals.telemetryData.forEach((metric: OtelData) => {
         //     otelEventEmitter.emit('newOtelEvent', metric);
         // })
-        otelEventEmitter.emit('newOtelEvent', res.locals.telemetryData);
-        return next();
+        try {
+            otelEventEmitter.emit('newOtelEvent', res.locals.telemetryData);
+            return next();
+        } catch(err) {
+            return next(err);
+        }
     },
 
     sendEvent: (req: Request, res: Response, next: NextFunction) => {
-        res.setHeader('Content-Type', 'text/event-stream');
-        res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Connection', 'keep-alive');
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        otelEventEmitter.on('newOtelEvent', (data: OtelData) => {
-            const jsonString = JSON.stringify(data);
-            res.write(`data:` + `${jsonString}\n\n`)
-            // I've left the encoding 
-            // const uint8Array = new TextEncoder().encode(jsonString);
-            // const compressedData = pako.gzip(uint8Array);
-            // const compressedArray = Array.from(compressedData);
-            // const base64Data = btoa(String.fromCharCode.apply(null, compressedArray));
-            // const eventPayload = `data: ${base64Data}\n\n`;
-            // res.write(eventPayload);
-        })
+        try {
+            res.setHeader('Content-Type', 'text/event-stream');
+            res.setHeader('Cache-Control', 'no-cache');
+            res.setHeader('Connection', 'keep-alive');
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            otelEventEmitter.on('newOtelEvent', (data: OtelData) => {
+                const jsonString = JSON.stringify(data);
+                res.write(`data:` + `${jsonString}\n\n`)
+                // I've left the encoding 
+                // const uint8Array = new TextEncoder().encode(jsonString);
+                // const compressedData = pako.gzip(uint8Array);
+                // const compressedArray = Array.from(compressedData);
+                // const base64Data = btoa(String.fromCharCode.apply(null, compressedArray));
+                // const eventPayload = `data: ${base64Data}\n\n`;
+                // res.write(eventPayload);
+            })
+        }
+        catch(err) {
+            return next(err);
+        }
     }
 }   

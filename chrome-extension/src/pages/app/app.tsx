@@ -3,14 +3,16 @@ import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
 import checkTraceId from './functions/checkTraceId.ts'
-import { OtelData, ITraceIdData} from '../../types/types.ts';
+import { OtelData, IAggregatedData} from '../../types/types.ts';
 
 function App() {
-  const [traceIdData, setTraceIdData] = useState<ITraceIdData>(new Map());
+  // const [traceIdData, setTraceIdData] = useState<ITraceIdData>(new Map());
+  const [aggregatedData, setAggregatedData] = useState<IAggregatedData>(new Map());
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
-      console.log('received chrome message', message)
+      setAggregatedData(prevAggregatedData => prevAggregatedData.set(`chromeApiRequestData: ${message.type}, startTime ${message.startTime}`, message))
+      
     })
   }, []);
     
@@ -21,7 +23,7 @@ function App() {
       try {
         console.log(e.data);
         // setNetworkRequests(prevNetworkRequests => [...prevNetworkRequests, JSON.parse(e.data)]);
-        setTraceIdData(prevTraceIdData => checkTraceId(prevTraceIdData, JSON.parse(e.data)))
+        setAggregatedData(prevAggregatedData => checkTraceId(prevAggregatedData, JSON.parse(e.data)))
       } catch (err) {
         console.log('failed', err);
       }
@@ -30,15 +32,8 @@ function App() {
 
 
   useEffect(() => {
-    console.log(traceIdData);
-  }, [traceIdData]);
-
-
- 
-  // const aggregatedData = checkTraceId(networkRequests);
-  
-
-
+    console.log(aggregatedData);
+  }, [aggregatedData]);
 
   return (
     <>

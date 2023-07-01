@@ -1,14 +1,4 @@
-type NetworkObject = {
-  method?: string,
-  protocol?: string,
-  size?: number,
-  status?: number,
-  startTime?: string,
-  time?: number,
-  urlEndpoint?: string,
-  type?: string,
-  initiator?: string | null, 
-}
+import { INetworkObject } from "../../types/types";
 
 try {
   chrome.devtools.panels.create(
@@ -20,8 +10,9 @@ try {
   //panel.onShown
     chrome.devtools.network.onRequestFinished.addListener(
       function(request) {
-        const networkObject: NetworkObject = {};
+        const networkObject: INetworkObject = {};
         if (request.request.httpVersion === 'chrome-extension') return;
+        console.log(request);
         networkObject.method = request.request.method;
         networkObject.protocol = request.request.httpVersion;
         networkObject.size = request.response.bodySize;
@@ -29,7 +20,7 @@ try {
         networkObject.startTime = request.startedDateTime;
         networkObject.time = request.time;
         networkObject.urlEndpoint = request.request.url;
-        networkObject.type = request.response.content.mimeType;
+        networkObject.type = request._resourceType as string;;
         networkObject.initiator = request._initiator;
         chrome.runtime.sendMessage(networkObject);
       }

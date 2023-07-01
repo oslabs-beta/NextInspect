@@ -2,7 +2,7 @@ import { IChromeApiNetworkObject } from "../../types/types";
 
 function convertToEpoch(dateString: string):number {
   const date = new Date(dateString);
-  const epochTime = Math.floor(date.getTime() / 1000);
+  const epochTime = date.getTime();
   return epochTime;
 }
 

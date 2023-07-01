@@ -24,6 +24,7 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
     console.log('error:', newErr);
     return res.status(newErr.code).json(newErr.message);
 });
+
 // connect to express port
 app.listen(PORT, (): void => {
     console.log('NextInspect express npm package running on on port:' + PORT)
@@ -31,3 +32,4 @@ app.listen(PORT, (): void => {
     //the listener is set up to listen for error events (ie. port already in use or inaccessible), callback function will execute
     console.log('error: ', err);
 });
+export default app;

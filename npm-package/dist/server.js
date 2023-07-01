@@ -23,5 +23,6 @@ app.use((err, req, res, next) => {
     return res.status(newErr.code).json(newErr.message);
 });
 app.listen(PORT, () => {
-    console.log('NextInspect express npm package running on on port:' + PORT);
+    console.log("NextInspect express npm package running on port: " + PORT);
 });
+exports.default = app;

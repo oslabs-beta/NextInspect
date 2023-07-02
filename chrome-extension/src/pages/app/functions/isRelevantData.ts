@@ -16,16 +16,20 @@ export default function isRelevantData(setRelevantData:ISetRelevantDataState, in
   } 
 
   setRelevantData(prevRelevantData => {
-    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    // const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const newRelevantData: IRelevantData = [...prevRelevantData];
+
 
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
 
-    if(newRelevantData.has(newKeyName)){
-      const existingData = newRelevantData.get(incomingSpanData.traceId);
-      existingData?.push(incomingSpanData);
-    }else{
-      newRelevantData.set(newKeyName,[incomingSpanData]);
-    }
+    // if(newRelevantData.has(newKeyName)){
+    //   const existingData = newRelevantData.get(incomingSpanData.traceId);
+    //   existingData?.push(incomingSpanData);
+    // }else{
+      // newRelevantData.set(newKeyName,[incomingSpanData]);
+    // }
+    console.log(newKeyName);
+    newRelevantData.push(incomingSpanData);
     return newRelevantData;
     
   })

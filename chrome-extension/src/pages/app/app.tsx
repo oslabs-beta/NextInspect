@@ -8,8 +8,9 @@ import isRelevantData from './functions/isRelevantData.ts';
 
 function App() {
   // const [traceIdData, setTraceIdData] = useState<ITraceIdData>(new Map());
-  const [aggregatedData, setAggregatedData] = useState<IAggregatedData>(new Map());
-  const [relevantData, setRelevantData] = useState<IRelevantData>(new Map());
+  // const [aggregatedData, setAggregatedData] = useState<IAggregatedData>(new Map());
+  // const [relevantData, setRelevantData] = useState<IRelevantData>(new Map());
+  const [relevantData, setRelevantData] = useState<IRelevantData>([]);
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
@@ -45,8 +46,8 @@ function App() {
 
   return (
     <>
-      {/* <WaterfallChart data={aggregatedData}/> 
-      <NetworkTable data={aggregatedData}/> */}
+      {/* <WaterfallChart data={aggregatedData}/>  */}
+      <NetworkTable data={relevantData}/>
     </>
   )
 }

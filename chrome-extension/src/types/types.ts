@@ -30,8 +30,10 @@ export type IChromeApiNetworkObject = {
 
 export type IAggregatedData = Map<string, OtelData[] | IChromeApiNetworkObject>;
 
-export type IRelevantData = Map<string, OtelData[]>; 
+// export type IRelevantData = Map<string, OtelData[]>; 
 // key includes method, name, and traceId as a string
+
+export type IRelevantData = OtelData[]; 
 
 export type ITraceIdData = Map<string, OtelData[]>; 
 

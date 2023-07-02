@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface OtelData {
     traceId: string,
     spanId: string,
@@ -27,6 +29,13 @@ export type IChromeApiNetworkObject = {
 }
 
 export type IAggregatedData = Map<string, OtelData[] | IChromeApiNetworkObject>;
+
+export type IRelevantData = Map<string, OtelData[]>; 
+// key includes method, name, and traceId as a string
+
+export type ITraceIdData = Map<string, OtelData[]>; 
+
+export type ISetRelevantDataState= Dispatch<SetStateAction<IRelevantData>>;
 
 
 

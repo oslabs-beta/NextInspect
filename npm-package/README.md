@@ -46,7 +46,7 @@ $ npm run nextinspect
 ```
 3. Go to your Next.js application page.
 4. Open the NextInspect devtool by right clicking the page and selecting inspect. In the double right arrow dropdown to the right of the Network tab, you will be able to view your other devtool extensions.
-5. Refresh your page to view telemtry metrics.
+5. Refresh your page to view telemetry metrics.
 
 
 

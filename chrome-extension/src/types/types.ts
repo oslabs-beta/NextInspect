@@ -45,7 +45,27 @@ export type ISetMostRecentEntryState= Dispatch<SetStateAction<string>>;
 
 export type ILengthsOfChartBars = number[][];
 
+export interface IUpdatedData {
+  applicationType: string, 
+  originatingService: string, 
+  method?: string,
+  status?: number, 
+  protocol?: string,
+  relativeStartTime: number,
+  startTime: number,
+  duration: number,
+  name: string
+}
 
+export type ISortedData = IUpdatedData[];
+
+export type ISetSortedData = Dispatch<SetStateAction<ISortedData>>;
+
+
+export interface ITotalDuration {
+  startTime: number,
+  duration: number
+}
 
 
 

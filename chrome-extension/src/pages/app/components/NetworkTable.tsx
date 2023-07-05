@@ -6,9 +6,13 @@ import { IRelevantData } from '../../../types/types';
 
 
 
+// interface NetworkTableProps {
+//   data: IRelevantData;
+// }
 interface NetworkTableProps {
   data: IRelevantData;
 }
+
 
 const NetworkTable = ({data} : NetworkTableProps) => {
   // console.log(`networkTableData: ${data}`);

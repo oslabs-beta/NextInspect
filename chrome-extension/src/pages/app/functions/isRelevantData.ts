@@ -2,7 +2,7 @@ import { setFlagsFromString } from 'v8';
 import { IRelevantData, OtelData, ISetRelevantDataState, IRelevant, ISetRelevantState, ISetMostRecentEntryState } from '../../../types/types';
 
 
-export function isRelevantData(setRelevantData:ISetRelevantDataState, incomingSpanData: OtelData): void | IRelevantData {  
+export function isRelevantData(setRelevantData:ISetRelevantDataState, incomingSpanData: OtelData): void {  
   // if there is no method attached, return
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;

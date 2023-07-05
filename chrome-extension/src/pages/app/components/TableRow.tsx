@@ -79,7 +79,6 @@ interface TableRowProps {
 // }
 
 const TableRow = ({data} : TableRowProps) => {
-  console.log(`tableRowData: ${data}`)
   return (
     <tr>
       <td>{data.name}</td>

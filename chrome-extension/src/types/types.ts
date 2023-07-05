@@ -39,6 +39,8 @@ export type ITraceIdData = Map<string, OtelData[]>;
 
 export type ISetRelevantDataState= Dispatch<SetStateAction<IRelevantData>>;
 
+export type ILengthsOfChartBars = number[][];
+
 
 
 

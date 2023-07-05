@@ -46,7 +46,7 @@ function App() {
 
   return (
     <>
-      {/* <WaterfallChart data={aggregatedData}/>  */}
+      <WaterfallChart data={relevantData}/> 
       <NetworkTable data={relevantData}/>
     </>
   )

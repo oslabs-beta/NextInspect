@@ -30,10 +30,10 @@ export type IChromeApiNetworkObject = {
 
 export type IAggregatedData = Map<string, OtelData[] | IChromeApiNetworkObject>;
 
-export type IRelevant = Map<string, OtelData[]>; 
+export type IRelevant = Map<string, IUpdatedData>; 
 // key includes method, name, and traceId as a string
 
-export type IRelevantData = OtelData[]; 
+export type IRelevantData = IUpdatedData[]; 
 
 export type ITraceIdData = Map<string, OtelData[]>; 
 
@@ -46,13 +46,15 @@ export type ISetMostRecentEntryState= Dispatch<SetStateAction<string>>;
 export type ILengthsOfChartBars = number[][];
 
 export interface IUpdatedData {
+  traceId: string,
   applicationType: string, 
   originatingService: string, 
   method?: string,
   status?: number, 
   protocol?: string,
   relativeStartTime: number,
-  startTime: number,
+  trueStartTime: number,
+  trueEndTime: number,
   duration: number,
   name: string
 }

@@ -17,7 +17,7 @@ function App() {
 
   const [mostRecentEntry, setMostRecentEntry] = useState<string>(""); // mainly just to figure out what name  === / belongs to
 
-  const [sortedData, setSortedData] = useState<ISortedData>([]);
+  // const [sortedData, setSortedData] = useState<ISortedData>([]);
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
@@ -35,7 +35,7 @@ function App() {
         // setNetworkRequests(prevNetworkRequests => [...prevNetworkRequests, JSON.parse(e.data)]);
         // setAggregatedData(prevAggregatedData => checkTraceId(prevAggregatedData, JSON.parse(e.data)))
         isRelevantData(setRelevantData, JSON.parse(e.data), )
-        isRelevant(setRelevant, mostRecentEntry, setMostRecentEntry, JSON.parse(e.data));
+        isRelevant(setRelevant, JSON.parse(e.data));
         // setRelevantData(prevRelevantData => isRelevantData(prevRelevantData, JSON.parse(e.data)));
       } catch (err) {
         console.log('failed', err);
@@ -54,13 +54,13 @@ function App() {
 
   useEffect(() => {
     console.log(relevant);
-    setSortedData(sortData(relevant));
+    // setSortedData(sortData(relevant));
     
   }, [relevant]); 
 
-  useEffect(() => {
-    console.log(sortedData);
-  }, [sortedData]);
+  // useEffect(() => {
+  //   console.log(sortedData);
+  // }, [sortedData]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { setFlagsFromString } from 'v8';
-import { IRelevantData, OtelData, ISetRelevantDataState, IRelevant, ISetRelevantState, ISetMostRecentEntryState } from '../../../types/types';
+import { IRelevantData, OtelData, ISetRelevantDataState, IRelevant, ISetRelevantState, ISetMostRecentEntryState, IUpdatedData } from '../../../types/types';
 
 
 export function isRelevantData(setRelevantData:ISetRelevantDataState, incomingSpanData: OtelData): void {  
@@ -44,7 +44,7 @@ export function isRelevantData(setRelevantData:ISetRelevantDataState, incomingSp
   
 }
 
-export function isRelevant(setRelevant:ISetRelevantState, mostRecentEntry: string, setMostRecentEntry: ISetMostRecentEntryState, incomingSpanData: OtelData): void | IRelevant {  
+export function isRelevant(setRelevant:ISetRelevantState,  incomingSpanData: OtelData): void {  
   // if there is no method attached, return
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;
@@ -52,12 +52,17 @@ export function isRelevant(setRelevant:ISetRelevantState, mostRecentEntry: strin
   
 
   // destructure name 
-  let {name, method, traceId} = incomingSpanData;
+  let {name, method, traceId, startTime, endTime, applicationType, originatingService, status, protocol} = incomingSpanData;
   // check if name starts with "/?key=" , return 
-  if (name.startsWith("/?key=")) {
-    return;
-  };
-  if (name.startsWith("/_next/static/")){
+  if(name.startsWith("/?key=")) return;
+
+  // ISSUE: look even closer into spans with name === "/" to make sure if it is relevant
+  if(name === "/")return;
+
+  // ISSUE: for now gets rid of repeat data but look into this more. should also be connected to the "/" names
+  if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
+
+  if(name.startsWith("/_next/static/")){
     const lastIndex = name.lastIndexOf("/");
     name = name.slice(lastIndex + 1);
   }
@@ -66,35 +71,66 @@ export function isRelevant(setRelevant:ISetRelevantState, mostRecentEntry: strin
   setRelevant(prevRelevant => {
     const newRelevant: IRelevant = new Map([...prevRelevant.entries()]);
 
-
-    // if(name === "/" && mostRecentEntry.includes(`${traceId}`) && mostRecentEntry.includes(`${method}`)){
-    //   const existingData = newRelevant.get(mostRecentEntry);
-    //   existingData?.push(incomingSpanData);
-    // };
-
-    if(name === "/" ){
-      const existingData = newRelevant.get(mostRecentEntry);
-      existingData?.push(incomingSpanData);
-
-      // ISSUE: look into how useful these spans with no names are. current logic is not working but also not sure if it should be pushing to the most recent entry
-      return newRelevant;
-    };
-
-
-
-
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
-
 
     if(newRelevant.has(newKeyName)){
       const existingData = newRelevant.get(newKeyName);
-      existingData?.push(incomingSpanData);
+      // if incoming data has an earlier startTime, update true start time on existingdata
+      let hasUpdatedTime: boolean = false;
+
+      if(startTime < existingData!.trueStartTime) {
+        existingData!.trueStartTime = startTime;
+        hasUpdatedTime = true;
+      }
+      if(endTime > existingData!.trueEndTime) {
+        existingData!.trueEndTime = endTime;
+        hasUpdatedTime = true;
+      }
+      if(existingData!.status === undefined && 'status' in incomingSpanData) existingData!.status = incomingSpanData.status;
+
+      if(existingData!.protocol === undefined && 'protocol' in incomingSpanData) existingData!.protocol = incomingSpanData.protocol;
+
+      if(hasUpdatedTime) {
+        existingData!.duration = existingData!.trueEndTime - existingData!.trueStartTime
+      };
+
     }else{
-      newRelevant.set(newKeyName,[incomingSpanData]);
-      setMostRecentEntry(newKeyName);
+      const updatedData = {
+        traceId,
+        applicationType,
+        originatingService,
+        method,
+        status,
+        protocol,
+        relativeStartTime: 0,
+        trueStartTime: startTime,
+        trueEndTime: endTime,
+        duration: endTime - startTime,
+        name
+      };
+
+
+      newRelevant.set(newKeyName,updatedData);
     }
     
-    return newRelevant;
+    const sortedRelevant: IRelevant = sortRelevant(newRelevant);
+    return sortedRelevant;
     
   });
+}
+
+function sortRelevant(relevant: IRelevant): IRelevant{
+ const entries = Array.from(relevant.entries());
+
+ entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);
+
+ const sortedMap = new Map(entries);
+
+ const earliestEntry = sortedMap.entries().next().value;
+
+  sortedMap.forEach(request => {
+    request.relativeStartTime = request.trueStartTime - earliestEntry[1].trueStartTime;
+  })
+
+ return sortedMap;
 }

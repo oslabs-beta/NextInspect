@@ -1,48 +1,5 @@
-import { setFlagsFromString } from 'v8';
-import { IRelevantData, OtelData, ISetRelevantDataState, IRelevant, ISetRelevantState, ISetMostRecentEntryState, IUpdatedData } from '../../../types/types';
+import { OtelData, IRelevant, ISetRelevantState } from '../../../types/types';
 
-
-export function isRelevantData(setRelevantData:ISetRelevantDataState, incomingSpanData: OtelData): void {  
-  // if there is no method attached, return
-  if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
-    return;
-  }
-  
-
-  // destructure name 
-  let {name, method, traceId} = incomingSpanData;
-  // check if name starts with "/?key=" , return 
-  if (name.startsWith("/?key=")) {
-    return;
-  } 
-
-  setRelevantData(prevRelevantData => {
-    // const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
-    const newRelevantData: IRelevantData = [...prevRelevantData];
-
-
-    const newKeyName: string = `${method}, ${name}, ${traceId}`;
-
-    // if(newRelevantData.has(newKeyName)){
-    //   const existingData = newRelevantData.get(incomingSpanData.traceId);
-    //   existingData?.push(incomingSpanData);
-    // }else{
-      // newRelevantData.set(newKeyName,[incomingSpanData]);
-    // }
-    console.log(newKeyName);
-    newRelevantData.push(incomingSpanData);
-    return newRelevantData;
-    
-  })
-  // otherwise setRelevantData, 
-    // create new state and spread out prevRelevant Data
-    // add as key, the method, the route, and the traceId: and as a value the incoming span
-
-  
-
-
-  
-}
 
 export function isRelevant(setRelevant:ISetRelevantState,  incomingSpanData: OtelData): void {  
   // if there is no method attached, return

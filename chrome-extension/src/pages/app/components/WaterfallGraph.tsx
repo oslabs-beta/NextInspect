@@ -13,13 +13,13 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { IRelevantData, ILengthsOfChartBars } from "../../../types/types";
+import { ILengthsOfChartBars, IRelevant } from "../../../types/types";
 
 
 
 interface WaterfallChartProps {
   // data: IMockData[][];
-  data: IRelevantData;
+  data: IRelevant;
 }
 
 

@@ -13,7 +13,7 @@ const TableRow = ({data} : TableRowProps) => {
       <td>{data.method}</td>
       <td>{data.status}</td>
       <td>{data.protocol}</td>
-      <td>{data.duration}ms</td>
+      <td>{data.duration} ms</td>
       <td>{data.originatingService}</td>
       <td>{data.applicationType}</td>
     </tr>   

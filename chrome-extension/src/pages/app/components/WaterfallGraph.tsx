@@ -63,6 +63,7 @@ const options = {
       display: false,
     },
   },
+  maintainAspectRatio: false,
 };
 
 

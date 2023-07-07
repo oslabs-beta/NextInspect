@@ -4,6 +4,8 @@ import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
 import {IRelevant} from '../../types/types.ts';
 import {isRelevant} from './functions/isRelevant.ts';
+import ClearState from './components/ClearState.tsx';
+import Reload from './components/Reload.tsx';
 
 function App() {
   const [relevant, setRelevant] = useState<IRelevant>(new Map()); 
@@ -35,10 +37,20 @@ function App() {
 
 
   return (
-    <>
-      <WaterfallChart data={relevant}/> 
-      <NetworkTable data={relevant}/>
-    </>
+    <div className='flex flex-col'>
+      <div className={relevant.size > 0 ? 'h-[33vh]' : 'h-[33vh] border-b-[1px] border-slate-400'}>
+        <WaterfallChart data={relevant}/> 
+      </div>
+
+      {relevant.size > 0 ?
+        <div>
+          <ClearState setRelevant={setRelevant} />
+          <NetworkTable data={relevant}/>
+        </div>
+        :
+        <Reload/>
+      }
+    </div>
   )
 }
 

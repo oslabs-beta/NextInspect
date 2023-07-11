@@ -31,9 +31,9 @@ function App() {
   }, []);
 
 
-  useEffect(() => {
-    console.log(relevant);
-  }, [relevant]); 
+  // useEffect(() => {
+  //   console.log(relevant);
+  // }, [relevant]); 
 
 
   return (

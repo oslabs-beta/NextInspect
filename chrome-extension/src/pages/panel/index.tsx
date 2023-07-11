@@ -6,6 +6,6 @@ import App from '../app/app.tsx'
 const domNode: HTMLElement = document.getElementById('root')!
 const root = createRoot(domNode)
 
-console.log('panel/index.jsx reached')
+// console.log('panel/index.jsx reached')
 
 root.render(<App/>)

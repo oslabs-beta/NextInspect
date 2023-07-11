@@ -4,8 +4,8 @@ export function getChartJSTraceData(allRequestData: IRelevant): ILengthsOfChartB
   const output: ILengthsOfChartBars= [];
 
   allRequestData.forEach((request) => {
-    console.log('relative start time',request.relativeStartTime);
-    console.log('relative start time',request.duration);
+    // console.log('relative start time',request.relativeStartTime);
+    // console.log('relative start time',request.duration);
 
     const singleChartJSData: number[] = [request.relativeStartTime, request.relativeStartTime + request.duration];
     output.push(singleChartJSData)

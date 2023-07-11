@@ -20,7 +20,7 @@ try {
     function(request) {
       const networkObject: IChromeApiNetworkObject = {};
       if (request.request.httpVersion === 'chrome-extension') return;
-      console.log(request);
+      // console.log(request);
       networkObject.method = request.request.method;
       networkObject.protocol = request.request.httpVersion;
       networkObject.size = request.response.bodySize;

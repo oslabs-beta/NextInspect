@@ -1,6 +1,6 @@
 {
   "name": "nextinspect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backend express server for the NextInspect app",
   "exports": {
     "./tracing": "./dist/tracing.js",

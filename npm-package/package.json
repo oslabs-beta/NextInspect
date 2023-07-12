@@ -1,10 +1,16 @@
 {
   "name": "nextinspect",
   "version": "1.0.0",
-  "description": "A Next.js network observability tool",
-  "main": "index.ts",
+  "description": "Backend express server for the NextInspect app",
+  "exports": {
+    "./tracing": "./dist/tracing.js",
+    ".": "./dist/server.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/server.js",
+    "test": "jest",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -17,28 +23,23 @@
   },
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
-    "@opentelemetry/api": "^1.4.1",
-    "@opentelemetry/core": "^1.13.0",
-    "@opentelemetry/exporter-collector": "^0.25.0",
-    "@opentelemetry/exporter-jaeger": "^1.13.0",
-    "@opentelemetry/exporter-prometheus": "^0.39.1",
     "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
     "@opentelemetry/instrumentation": "^0.39.1",
     "@opentelemetry/instrumentation-http": "^0.39.1",
     "@opentelemetry/resources": "^1.13.0",
-    "@opentelemetry/sdk-metrics": "^1.13.0",
-    "@opentelemetry/sdk-trace-base": "^1.13.0",
+    "@opentelemetry/sdk-node": "^0.40.0",
     "@opentelemetry/sdk-trace-node": "^1.13.0",
     "@opentelemetry/semantic-conventions": "^1.13.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "opentelemetry-instrumentation-express": "^0.35.0",
-    "ts-node": "^10.9.1"
+    "nodemon": "^2.0.22",
+    "opentelemetry-instrumentation-express": "^0.35.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
-    "nodemon": "^2.0.22",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
     "typescript": "^5.1.3"
   }
 }

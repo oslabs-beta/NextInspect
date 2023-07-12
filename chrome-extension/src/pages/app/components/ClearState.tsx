@@ -1,7 +1,7 @@
-import { ISetRelevantState } from "../../../types/types";
+import { ISetRelevantData } from "../../../types/types";
 
 interface ClearStateProps {
-  setRelevant: ISetRelevantState;
+  setRelevant: ISetRelevantData;
 }
 
 const ClearState = ({setRelevant} : ClearStateProps) => {

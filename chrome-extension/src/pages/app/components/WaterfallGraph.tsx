@@ -10,12 +10,12 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { ILengthsOfChartBars, IRelevant } from "../../../types/types";
+import { ILengthsOfChartBars, IRelevantData } from "../../../types/types";
 
 
 
 interface WaterfallChartProps {
-  data: IRelevant;
+  data: IRelevantData;
 }
 
 
@@ -65,9 +65,6 @@ const options = {
 
 
 const WaterfallChart = ({data} : WaterfallChartProps) => {
-
-  // const tracesTimeInfo: IAllTracesTimeInfo = getAllTracesTimeInfo(data);
-
   const labels: string[]= getChartJSLabels(data);
 
   const chartJSData: ILengthsOfChartBars = getChartJSData(data);

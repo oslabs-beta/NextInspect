@@ -1,9 +1,9 @@
 
 import TableRow from './TableRow';
-import { IRelevant } from '../../../types/types';
+import { IRelevantData } from '../../../types/types';
 
 interface NetworkTableProps {
-  data: IRelevant;
+  data: IRelevantData;
 }
 
 const NetworkTable = ({data} : NetworkTableProps) => {

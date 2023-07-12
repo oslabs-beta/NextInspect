@@ -20,7 +20,6 @@ export type IRelevantData = Map<string, IAggregatedSortedData>;
 
 export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
 
-
 export type ILengthsOfChartBars = number[][];
 
 export interface IAggregatedSortedData {

@@ -1,6 +1,6 @@
-import { ILengthsOfChartBars, IRelevant } from "../../../types/types";
+import { ILengthsOfChartBars, IRelevantData } from "../../../types/types";
 
-export function getChartJSData(allRequestData: IRelevant): ILengthsOfChartBars{
+export function getChartJSData(allRequestData: IRelevantData): ILengthsOfChartBars{
   const output: ILengthsOfChartBars= [];
 
   allRequestData.forEach((request) => {
@@ -11,7 +11,7 @@ export function getChartJSData(allRequestData: IRelevant): ILengthsOfChartBars{
   return output;
 }
 
-export function getChartJSLabels(allRequestData: IRelevant):string[]{
+export function getChartJSLabels(allRequestData: IRelevantData):string[]{
   const labelsArr:string[] = [];
   allRequestData.forEach((request) => {
     labelsArr.push(request.name);

@@ -1,22 +1,18 @@
-import { OtelData, IRelevant, ISetRelevantState } from '../../../types/types';
+import { IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
 
 
-export function isRelevant(setRelevant:ISetRelevantState,  incomingSpanData: OtelData): void {  
-  // if there is no method attached, return
+export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData: IOtelData): void {  
+
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;
   }
   
-
-  // destructure name 
   let {name, method, traceId, startTime, endTime, applicationType, originatingService, status, protocol} = incomingSpanData;
-  // check if name starts with "/?key=" , return 
+
   if(name.startsWith("/?key=")) return;
 
-  // ISSUE: look even closer into spans with name === "/" to make sure if it is relevant
   if(name === "/")return;
 
-  // ISSUE: for now gets rid of repeat data but look into this more. should also be connected to the "/" names
   if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
 
   if(name.startsWith("/_next/static/")){
@@ -26,13 +22,12 @@ export function isRelevant(setRelevant:ISetRelevantState,  incomingSpanData: Ote
 
 
   setRelevant(prevRelevant => {
-    const newRelevant: IRelevant = new Map([...prevRelevant.entries()]);
+    const newRelevant: IRelevantData = new Map([...prevRelevant.entries()]);
 
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
 
     if(newRelevant.has(newKeyName)){
       const existingData = newRelevant.get(newKeyName);
-      // if incoming data has an earlier startTime, update true start time on existingdata
       let hasUpdatedTime: boolean = false;
 
       if(startTime < existingData!.trueStartTime) {
@@ -70,13 +65,13 @@ export function isRelevant(setRelevant:ISetRelevantState,  incomingSpanData: Ote
       newRelevant.set(newKeyName,updatedData);
     }
     
-    const sortedRelevant: IRelevant = sortRelevant(newRelevant);
+    const sortedRelevant: IRelevantData = sortRelevant(newRelevant);
     return sortedRelevant;
     
   });
 }
 
-function sortRelevant(relevant: IRelevant): IRelevant{
+function sortRelevant(relevant: IRelevantData): IRelevantData{
  const entries = Array.from(relevant.entries());
 
  entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);

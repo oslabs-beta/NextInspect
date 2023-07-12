@@ -1,7 +1,4 @@
-// import { IMockData } from "../mockData";
-// import { getAllTracesTimeInfo, getTraceTimeInfo,IAllTracesTimeInfo,ITotalTimes } from "../functions/getTraceInfo";
-
-import { getChartJSLabels, getChartJSTraceData } from "../functions/chartJSData";
+import { getChartJSData, getChartJSLabels} from "../functions/chartJSData";
 
 import {
   Chart as ChartJS,
@@ -18,7 +15,6 @@ import { ILengthsOfChartBars, IRelevant } from "../../../types/types";
 
 
 interface WaterfallChartProps {
-  // data: IMockData[][];
   data: IRelevant;
 }
 
@@ -74,7 +70,7 @@ const WaterfallChart = ({data} : WaterfallChartProps) => {
 
   const labels: string[]= getChartJSLabels(data);
 
-  const chartJSData: ILengthsOfChartBars = getChartJSTraceData(data);
+  const chartJSData: ILengthsOfChartBars = getChartJSData(data);
 
   const chartData = {
     labels,

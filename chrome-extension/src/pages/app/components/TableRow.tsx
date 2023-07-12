@@ -1,4 +1,3 @@
-// import { IMockData } from '../mockData';
 import { IUpdatedData } from '../../../types/types';
 
 

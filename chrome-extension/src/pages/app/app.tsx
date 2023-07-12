@@ -2,28 +2,19 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
-import {IRelevant} from '../../types/types.ts';
-import {isRelevant} from './functions/isRelevant.ts';
+import {IRelevantData} from '../../types/types.ts';
+import {aggregateAndSort} from './functions/aggregateAndSort.ts';
 import ClearState from './components/ClearState.tsx';
 import Reload from './components/Reload.tsx';
 
 function App() {
-  const [relevant, setRelevant] = useState<IRelevant>(new Map()); 
-
-
-  // testing uses only: to cross-reference incoming client data with otel data
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener((message) => {
-      // console.log(`chromeApiRequestData: ${message.type}, startTime ${message.startTime}`, message);
-    })
-  }, []);
-    
-
+  const [relevantData, setRelevantData] = useState<IRelevantData>(new Map()); 
+  
   useEffect(() => {
     const sseStream = new EventSource('http://localhost:3002/stream/sse');
     sseStream.addEventListener('message', (e) => {
       try {
-        isRelevant(setRelevant, JSON.parse(e.data));
+        aggregateAndSort(setRelevantData, JSON.parse(e.data));
       } catch (err) {
         console.log('failed', err);
       }
@@ -31,21 +22,16 @@ function App() {
   }, []);
 
 
-  // useEffect(() => {
-  //   console.log(relevant);
-  // }, [relevant]); 
-
-
   return (
     <div className='flex flex-col'>
-      <div className={relevant.size > 0 ? 'h-[33vh]' : 'h-[33vh] border-b-[1px] border-slate-400'}>
-        <WaterfallChart data={relevant}/> 
+      <div className={relevantData.size > 0 ? 'h-[33vh]' : 'h-[33vh] border-b-[1px] border-slate-400'}>
+        <WaterfallChart data={relevantData}/> 
       </div>
 
-      {relevant.size > 0 ?
+      {relevantData.size > 0 ?
         <div>
-          <ClearState setRelevant={setRelevant} />
-          <NetworkTable data={relevant}/>
+          <ClearState setRelevant={setRelevantData} />
+          <NetworkTable data={relevantData}/>
         </div>
         :
         <Reload/>

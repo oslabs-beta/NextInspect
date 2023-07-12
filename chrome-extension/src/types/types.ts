@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface OtelData {
+export interface IOtelData {
     traceId: string,
     spanId: string,
     applicationType: string, 
@@ -16,28 +16,14 @@ export interface OtelData {
     name: string
 }
 
-export type IChromeApiNetworkObject = {
-  method?: string,
-  protocol?: string,
-  size?: number,
-  status?: number,
-  startTime?: number,
-  time?: number,
-  urlEndpoint?: string,
-  type?: string | null,
-  initiator?: string | null, 
-}
+export type IRelevantData = Map<string, IAggregatedSortedData>; 
 
-export type IRelevant = Map<string, IUpdatedData>; 
-// key includes method, name, and traceId as a string
-
-
-export type ISetRelevantState= Dispatch<SetStateAction<IRelevant>>;
+export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
 
 
 export type ILengthsOfChartBars = number[][];
 
-export interface IUpdatedData {
+export interface IAggregatedSortedData {
   traceId: string,
   applicationType: string, 
   originatingService: string, 

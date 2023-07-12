@@ -1,14 +1,10 @@
 
 import TableRow from './TableRow';
-
 import { IRelevant } from '../../../types/types';
-
-
 
 interface NetworkTableProps {
   data: IRelevant;
 }
-
 
 const NetworkTable = ({data} : NetworkTableProps) => {
   return (

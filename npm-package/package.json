@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "dev": "nodemon src/server.ts",
     "build": "tsc"
   },
@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/core": "^1.13.0",
     "@opentelemetry/exporter-collector": "^0.25.0",

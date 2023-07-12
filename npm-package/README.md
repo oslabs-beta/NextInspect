@@ -39,7 +39,7 @@ export async function register() {
 
 ## Quick Start
 
-1. Install the NextInspect Chrome extension.
+1. Install the NextInspect Chrome extension [here](https://chrome.google.com/webstore/detail/nextinspect/pnllkkbkkjkhebaeocnbfdcchnpfbbaa)
 2. Start both the telemetry collection and your Next.js app in dev mode by running 
 ```
 $ npm run nextinspect

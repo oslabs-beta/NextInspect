@@ -1,7 +1,4 @@
-// import { IMockData } from "../mockData";
-// import { getAllTracesTimeInfo, getTraceTimeInfo,IAllTracesTimeInfo,ITotalTimes } from "../functions/getTraceInfo";
-import { getAllTracesTimeInfo, IAllTracesTimeInfo } from "../functions/getTraceInfo";
-import { getChartJSLabels, getChartJSTraceData } from "../functions/chartJSData";
+import { getChartJSData, getChartJSLabels} from "../functions/chartJSData";
 
 import {
   Chart as ChartJS,
@@ -13,13 +10,12 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { OtelData } from "../../../types/types";
+import { ILengthsOfChartBars, IRelevantData } from "../../../types/types";
 
 
 
 interface WaterfallChartProps {
-  // data: IMockData[][];
-  data: OtelData[][];
+  data: IRelevantData;
 }
 
 
@@ -63,31 +59,25 @@ const options = {
       display: false,
     },
   },
+  maintainAspectRatio: false,
 };
 
 
 
 const WaterfallChart = ({data} : WaterfallChartProps) => {
+  const labels: string[]= getChartJSLabels(data);
 
-  const tracesTimeInfo: IAllTracesTimeInfo = getAllTracesTimeInfo(data);
-
-  const labels: string[]= getChartJSLabels(tracesTimeInfo.allTracesTimeInfo);
-
-  const chartJSTraceData: number[][] = getChartJSTraceData(tracesTimeInfo.allTracesTimeInfo,tracesTimeInfo.earliestTime);
+  const chartJSData: ILengthsOfChartBars = getChartJSData(data);
 
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Trace', // based on maybe traceId
-        data: chartJSTraceData,
+        label: 'All Requests', 
+        data: chartJSData,
         borderColor: 'rgb(119, 219, 137)',
         backgroundColor: 'rgba(1, 19, 1, 0.5)',
       },
-      // {
-      //   spans: 'Spans',
-      //   data: 
-      // }
     ],
   };
 

@@ -1,0 +1,46 @@
+name: npm package CD
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+jobs:
+  npm_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Check if PR is merged
+        id: check_merge
+        run: |
+          if [[ "$(git log -1 --pretty=%B "${{ github.event.pull_request.merge_commit_sha }}")" == *"Merge pull request"* ]]; then
+            echo "::set-output name=is_merged::true"
+          else
+            echo "::set-output name=is_merged::false"
+          fi
+
+      - name: Setup node env
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./npm-package
+      - name: Build files into dist
+        run: npm run build
+        working-directory: ./npm-package
+      - name: Check for changes in npm-package
+        id: changes
+        run: |
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.merge_commit_sha }} -- npm-package/ | grep -q .; then
+            echo "::set-output name=changes::true"
+          else
+            echo "::set-output name=changes::false"
+          fi
+      - name: Deploy
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run semantic-release 
+        if: steps.check_merge.outputs.is_merged == 'true' && steps.changes.outputs.changes == 'true'

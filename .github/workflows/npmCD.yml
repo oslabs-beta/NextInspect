@@ -16,9 +16,9 @@ jobs:
         id: check_merge
         run: |
           if [[ "$(git log -1 --pretty=%B "${{ github.event.pull_request.merge_commit_sha }}")" == *"Merge pull request"* ]]; then
-            echo "::set-output name=is_merged::true"
+            echo "is_merged=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=is_merged::false"
+            echo "is_merged=false" >> $GITHUB_ENV
           fi
 
       - name: Setup node env
@@ -35,9 +35,9 @@ jobs:
         id: changes
         run: |
           if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.merge_commit_sha }} -- npm-package/ | grep -q .; then
-            echo "::set-output name=changes::true"
+            echo "changes=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=changes::false"
+            echo "changes=false" >> $GITHUB_ENV
           fi
       - name: Deploy
         env:

@@ -1,9 +1,10 @@
-import { streamController } from './streamController'
+import { streamController } from '../src/controllers/streamController'
 import { EventEmitter } from 'events'
 
 //Mock Request, Response and Next Functions
 const requestMock = { body: 'body' }
 const responseMock = { status: 200, locals: { telemetryData: 'test' } }
+const responseMockTwo = { status: 200, locals: {} }
 const nextMock = jest.fn()
 
 //import methods from Stream Controller
@@ -45,7 +46,7 @@ describe('streamController method testing', () => {
 
   describe('sendEvent testing', () => {
     test('sendEvent initializes and calls appropriately', async () => {
-      await sendFunction(requestMock, res, nextMock)
+      const result = await sendFunction(requestMock, res, nextMock)
       expect(res.setHeader).toBeCalled()
       expect(res.setHeader).toBeCalledTimes(4)
     })

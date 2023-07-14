@@ -1,18 +1,43 @@
 const request = require('supertest')
-import app from './tests/mock app/mock-app'
+import app from '../src/app'
+import express, { Express, NextFunction, Request, Response, ErrorRequestHandler } from 'express';
+const server = 'http://localhost:3002'
+const EventSource = require('eventsource');
+import {EventEmitter} from 'events'; 
+
+
+
+ describe('Express Routes', () => {
+     describe('/', () => {
+         it('GET', () => {
+             return request(server)
+                 .get('/')
+                 .expect(404)
+    })
+  })
+})
 
 //Testing for GET request to /sse route
-describe('/stream-mock', () => {
-  it('GET', async () => {
-    const response = await request(app).get('/stream-mock/sse')
-    expect(response.status).toBe(200)
-    expect(response.body).toEqual('Success')
-  })
+describe('/stream', () => {
+
+
+it('GET request', async() => { 
+
+await app.get('/stream/sse'); 
+  
+ await request(app)
+  .post('/stream/otel')
+  .send(requestMock)
+
+const sseStream = new EventSource('http://localhost:3002/stream/sse')
+sseStream.addEventListener('newOtelEvent', (e) => { 
+  console.log(e.data)
+})
+}) 
 })
 
 //Request mock to test post route
 const requestMock = {
-  body: {
     resourceSpans: [
       {
         scopeSpans: [
@@ -60,16 +85,15 @@ const requestMock = {
         },
       },
     ],
-  },
-}
+  }
 
-//Testing for POST request to /otel route
+// //Testing for POST request to /otel route
 describe('/otel', () => {
   it('POST', async () => {
     const response = await request(app)
-      .post('/stream-mock/otel')
+      .post('/stream/otel')
       .send(requestMock)
+    expect(response.body).toEqual('completed')
     expect(response.status).toBe(200)
-    expect(response.body).toEqual(requestMock)
   })
 })

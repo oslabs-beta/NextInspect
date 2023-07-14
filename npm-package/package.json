@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node dist/server.js",
-    "test": "jest --coverage",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "coverage": "jest --coverage",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "semantic-release": "semantic-release --branches main",
@@ -35,7 +36,9 @@
     "@opentelemetry/sdk-trace-node": "^1.13.0",
     "@opentelemetry/semantic-conventions": "^1.13.0",
     "cors": "^2.8.5",
+    "eventsource": "^2.0.2",
     "express": "^4.18.2",
+    "node-mocks-http": "^1.12.2",
     "nodemon": "^2.0.22",
     "opentelemetry-instrumentation-express": "^0.35.0"
   },

@@ -1,4 +1,7 @@
 node_modules/
+coverage/
 
 .DS_Store
 .env
+.babel.config.js
+

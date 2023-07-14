@@ -20,10 +20,11 @@ export const otelController: OtelControllerType = {
   parseAllRequest: (req: Request, res: Response, next: NextFunction) => {
     let data: OtelData = {}
 
+
     if (req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId) {
         data.traceId = req.body.resourceSpans[0].scopeSpans[0].spans[0]?.traceId
       }
-  
+
       if (req.body.resourceSpans[0].scopeSpans[0].spans[0]?.spanId) {
         data.spanId = req.body.resourceSpans[0].scopeSpans[0].spans[0]?.spanId
       }
@@ -40,8 +41,7 @@ export const otelController: OtelControllerType = {
         data.method = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
         data.name = req.body.resourceSpans[0].scopeSpans[0].spans[0].name;
       }
-
-      
+  
 
       const attributeArr = req.body.resourceSpans[0].scopeSpans[0].spans[0].attributes;
       for (let i = 0; i < attributeArr.length; i++) {
@@ -65,7 +65,7 @@ export const otelController: OtelControllerType = {
     if (data.method === data.name) data.method = '';
 
     res.locals.telemetryData = data;
-
+  
     return next()
   },
 

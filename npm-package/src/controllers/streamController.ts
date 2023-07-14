@@ -21,10 +21,12 @@ export const streamController = {
 
     sendEvent: (req: Request, res: Response, next: NextFunction) => {
         try {
+            
             res.setHeader('Content-Type', 'text/event-stream');
             res.setHeader('Cache-Control', 'no-cache');
             res.setHeader('Connection', 'keep-alive');
             res.setHeader('Access-Control-Allow-Origin', '*');
+
             otelEventEmitter.on('newOtelEvent', (data: OtelData) => {
                 const jsonString = JSON.stringify(data);
                 res.write(`data:` + `${jsonString}\n\n`)
@@ -35,6 +37,7 @@ export const streamController = {
                 // const base64Data = btoa(String.fromCharCode.apply(null, compressedArray));
                 // const eventPayload = `data: ${base64Data}\n\n`;
                 // res.write(eventPayload);
+
             })
         }
         catch(err) {

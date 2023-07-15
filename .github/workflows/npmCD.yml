@@ -12,6 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Check if PR is merged
+        id: check_merge
+        run: |
+          if [[ "$(git log -1 --pretty=%B "${{ github.event.pull_request.merge_commit_sha }}")" == *"Merge pull request"* ]]; then
+            echo "is_merged=true" >> $GITHUB_ENV
+          else
+            echo "is_merged=false" >> $GITHUB_ENV
+          fi
       - name: Setup node env
         uses: actions/setup-node@v3
         with:
@@ -27,3 +35,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release 
         working-directory: ./npm-package
+        if: steps.check_merge.outputs.is_merged == 'true'

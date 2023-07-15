@@ -17,7 +17,8 @@
       max-h-[10px]
       overflow-x-hidden
       text-ellipsis
-      whitespace-nowrap;
+      whitespace-nowrap
+      text-left;
   }
 }
 

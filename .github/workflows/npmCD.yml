@@ -35,4 +35,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release 
         working-directory: ./npm-package
-        if: steps.check_merge.outputs.is_merged== 'true'
+        if: steps.check_merge.outputs.is_merged == 'true'

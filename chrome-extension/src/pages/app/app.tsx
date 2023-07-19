@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
-import {IRelevantData, ITraceIdMap} from '../../types/types.ts';
+import {IChromeApiData, IRelevantData, ITraceIdMap} from '../../types/types.ts';
 import {aggregateAndSort, sortWithChromeDataType} from './functions/aggregateAndSort.ts';
 import ClearState from './components/ClearState.tsx';
 import Reload from './components/Reload.tsx';
@@ -13,6 +13,8 @@ function App() {
   const [relevantData, setRelevantData] = useState<IRelevantData>(new Map()); 
 
   const [traceIdMap, setTraceIdMap] = useState<ITraceIdMap>(new Map());
+
+  const [chromeData, setChromeData] = useState<IChromeApiData[]>([]);
   
   useEffect(() => {
     const sseStream = new EventSource('http://localhost:3002/stream/sse');
@@ -28,7 +30,15 @@ function App() {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
-      console.log('received chrome message', message);
+      // console.log('received chrome message', message);
+
+      // checking data - crossreferencing with chrome's api
+      setChromeData(prevChromeData => {
+        const newChromeData = [...prevChromeData];
+        newChromeData.push(message);
+        return newChromeData;
+      })
+
       if(message.type === "text/html"){
         console.log('ChromeApiDocument', message);
         const updatedChromeDataType = convertChromeDataType(message);
@@ -39,8 +49,12 @@ function App() {
 
   // dev purposes: 
   useEffect(() => {
-    console.log(traceIdMap);
+    console.log('sortedOtelDataByTraceId', traceIdMap);
   }, [traceIdMap]);
+
+  useEffect(() => {
+    console.log('incomingChromeData', chromeData);
+  }, [chromeData]);
 
 
   return (
@@ -51,7 +65,8 @@ function App() {
 
       {relevantData.size > 0 ?
         <div>
-          <ClearState setRelevant={setRelevantData} />
+          {/* <ClearState setRelevant={setRelevantData}  /> */}
+          <ClearState setRelevantData={setRelevantData}  setTraceIdMap={setTraceIdMap} setChromeData={setChromeData}/>
           <NetworkTable data={relevantData}/>
         </div>
         :

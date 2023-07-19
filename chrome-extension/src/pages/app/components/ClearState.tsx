@@ -1,12 +1,26 @@
-import { ISetRelevantData } from "../../../types/types";
+import { ISetChromeApiData, ISetRelevantData, ISetTraceIdMap } from "../../../types/types";
 
 interface ClearStateProps {
-  setRelevant: ISetRelevantData;
+  setRelevantData: ISetRelevantData;
+  setTraceIdMap: ISetTraceIdMap,
+  setChromeData: ISetChromeApiData
 }
 
-const ClearState = ({setRelevant} : ClearStateProps) => {
+// const ClearState = ({setRelevant} : ClearStateProps) => {
+//   const clearState = () => {
+//     setRelevant(new Map());
+//   }
+//   return (
+//     <button className="bg-violet-800 border-[1px] border-slate-400 mb-5 p-2 ml-auto" onClick = {clearState}>
+//       Clear History
+//     </button>
+//   )
+// }
+const ClearState = ({setRelevantData, setTraceIdMap, setChromeData} : ClearStateProps) => {
   const clearState = () => {
-    setRelevant(new Map());
+    setRelevantData(new Map());
+    setTraceIdMap(new Map());
+    setChromeData([]);
   }
   return (
     <button className="bg-violet-800 border-[1px] border-slate-400 mb-5 p-2 ml-auto" onClick = {clearState}>
@@ -14,5 +28,6 @@ const ClearState = ({setRelevant} : ClearStateProps) => {
     </button>
   )
 }
+
 
 export default ClearState

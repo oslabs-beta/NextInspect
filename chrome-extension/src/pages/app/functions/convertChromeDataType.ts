@@ -1,13 +1,13 @@
 
 import { IAggregatedSortedData, IChromeApiData } from "../../../types/types";
-import convertToEpoch from "./convertToEpoch";
+
 
 export default function convertChromeDataType(message: IChromeApiData):IAggregatedSortedData{
   let {method, protocol, size, status, startTime, time, urlEndpoint, type} = message;
 
-  const trueStartTime = convertToEpoch(startTime!);
+  const trueStartTime = startTime!;
   const duration = time!;
-  const trueEndTime = trueStartTime + duration;
+  const trueEndTime = trueStartTime! + duration;
 
   return {
     chromeApiDataType: type,

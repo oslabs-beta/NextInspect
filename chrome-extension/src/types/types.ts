@@ -39,17 +39,20 @@ export interface IAggregatedSortedData {
 
 export type ITraceIdMap = Map<string, IOtelData[]>;
 export type ISetTraceIdMap = Dispatch<SetStateAction<ITraceIdMap>>; 
+export type ISetChromeApiData = Dispatch<SetStateAction<IChromeApiData[]>>; 
 
 export type IChromeApiData = {
   method?: string,
   protocol?: string,
   size?: number,
   status?: number,
-  startTime?: string,
+  startTime?: number,
   time?: number,
   urlEndpoint?: string,
   type?: string,
   initiator?: string | null, 
+  originalRequest?: any
+  timings?: any
 }
 
 

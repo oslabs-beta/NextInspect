@@ -1,19 +1,22 @@
-import { IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
+import { IAggregatedSortedData, IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
 
 
-export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData: IOtelData): void {  
-
-  if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
+export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingData: IOtelData): void {  
+  if(!('method' in incomingData) || incomingData.method === ""){
     return;
   }
   
-  let {name, method, traceId, startTime, endTime, applicationType, originatingService, status, protocol} = incomingSpanData;
+  let {name, method, traceId, startTime, endTime, applicationType, originatingService, status, protocol} = incomingData;
 
   if(name.startsWith("/?key=")) return;
 
   if(name === "/")return;
 
-  if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
+  // if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return; // better to do if the method matches the name
+
+  if(name.includes(method!)) return;
+
+
 
   if(name.startsWith("/_next/static/")){
     const lastIndex = name.lastIndexOf("/");
@@ -38,9 +41,9 @@ export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData
         existingData!.trueEndTime = endTime;
         hasUpdatedTime = true;
       }
-      if(existingData!.status === undefined && 'status' in incomingSpanData) existingData!.status = incomingSpanData.status;
+      if(existingData!.status === undefined && 'status' in incomingData) existingData!.status = incomingData.status;
 
-      if(existingData!.protocol === undefined && 'protocol' in incomingSpanData) existingData!.protocol = incomingSpanData.protocol;
+      if(existingData!.protocol === undefined && 'protocol' in incomingData) existingData!.protocol = incomingData.protocol;
 
       if(hasUpdatedTime) {
         existingData!.duration = existingData!.trueEndTime - existingData!.trueStartTime
@@ -71,7 +74,18 @@ export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData
   });
 }
 
-function sortRelevant(relevant: IRelevantData): IRelevantData{
+export function sortWithChromeDataType(setRelevantData: ISetRelevantData,updatedChromeDataType: IAggregatedSortedData){
+  setRelevantData(prevRelevantData => {
+    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const {chromeApiDataType, name, trueStartTime} = updatedChromeDataType
+      const newKeyName = `${chromeApiDataType} ${name} ${trueStartTime}`
+      newRelevantData.set(newKeyName, updatedChromeDataType);
+      const sortedRelevant: IRelevantData = sortRelevant(newRelevantData);
+      return sortedRelevant;
+  })
+}
+
+export function sortRelevant(relevant: IRelevantData): IRelevantData{
  const entries = Array.from(relevant.entries());
 
  entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);

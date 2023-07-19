@@ -23,9 +23,10 @@ export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
 export type ILengthsOfChartBars = number[][];
 
 export interface IAggregatedSortedData {
-  traceId: string,
-  applicationType: string, 
-  originatingService: string, 
+  traceId?: string,
+  chromeApiDataType?: string,
+  applicationType?: string, 
+  originatingService?: string, 
   method?: string,
   status?: number, 
   protocol?: string,
@@ -34,8 +35,22 @@ export interface IAggregatedSortedData {
   trueEndTime: number,
   duration: number,
   name: string
-}
+} 
 
+export type ITraceIdMap = Map<string, IOtelData[]>;
+export type ISetTraceIdMap = Dispatch<SetStateAction<ITraceIdMap>>; 
+
+export type IChromeApiData = {
+  method?: string,
+  protocol?: string,
+  size?: number,
+  status?: number,
+  startTime?: string,
+  time?: number,
+  urlEndpoint?: string,
+  type?: string,
+  initiator?: string | null, 
+}
 
 
 

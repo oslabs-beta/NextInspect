@@ -9,7 +9,7 @@ const ClearState = ({setRelevant} : ClearStateProps) => {
     setRelevant(new Map());
   }
   return (
-    <button className="bg-violet-800 border-[1px] border-slate-400 mb-5 p-2 ml-auto" onClick = {clearState}>
+    <button className="bg-white bg-opacity-10 hover:bg-opacity-50 border-[1px] border-slate-200 my-5 p-1 mr-2 rounded-md" onClick = {clearState}>
       Clear History
     </button>
   )

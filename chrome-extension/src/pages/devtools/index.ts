@@ -1,4 +1,4 @@
-import { IAggregatedSortedData, IChromeApiData } from "../../types/types";
+import { IAggregatedSortedData} from "../../types/types";
 import convertToEpoch from "../app/functions/convertToEpoch";
 
 try {
@@ -31,23 +31,10 @@ try {
       }else{
         name = url.slice(urlLastIndexSlash + 1);
       }
-    
-    
-      // const networkObject: IAggregatedSortedData = {};
-      
-      // networkObject.method = request.request.method;
-
-      
-      // networkObject.size = request.response.bodySize;
-      // networkObject.status = request.response.status;
-      // networkObject.trueStartTime = convertToEpoch(request.startedDateTime);
-      // networkObject.duration = request.time;
-      // networkObject.name = request.request.url;
-      // networkObject.type = request._resourceType as string;
-      // networkObject.relativeStartTime = 0;
 
       const networkObject: IAggregatedSortedData = {
         type: request._resourceType as string,
+        source: "Client-side",
         method: request.request.method,
         status: request.response.status,
         protocol: protocol, 
@@ -59,12 +46,7 @@ try {
         size: request.response.bodySize
       };
 
-
-      // const networkObject: any = {request};
-
-
       chrome.runtime.sendMessage(networkObject);
-
 
     }
   )

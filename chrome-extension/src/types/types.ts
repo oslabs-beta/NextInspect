@@ -20,13 +20,10 @@ export type IRelevantData = Map<string, IAggregatedSortedData>;
 
 export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
 
-export type ILengthsOfChartBars = number[][];
-
 export interface IAggregatedSortedData {
   traceId?: string,
   type?: string, 
-  applicationType?: string, 
-  originatingService?: string, 
+  source: string | null,
   method?: string,
   status?: number, 
   protocol?: string,
@@ -38,17 +35,10 @@ export interface IAggregatedSortedData {
   size?: number
 }
 
-export type IChromeApiData = {
-  method?: string,
-  protocol?: string,
-  size?: number,
-  status?: number,
-  trueStartTime?: number,
-  duration?: number,
-  urlEndpoint?: string,
-  type?: string,
-  initiator?: string | null, 
+
+export type IChartJSData = {
+  barLengths: number[][],
+  labels: string[],
+  backgroundColors: string[]
 }
-
-
 

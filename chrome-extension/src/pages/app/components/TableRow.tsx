@@ -13,7 +13,7 @@ const TableRow = ({ data }: TableRowProps) => {
         <td className="td">{data.status}</td>
         <td className="td">{data.protocol}</td>
         <td className="td">{data.duration} ms</td>
-        <td className="td">{data.source}</td>
+        <td className="td">{data.rendering}</td>
       </tr>
     </>
   )

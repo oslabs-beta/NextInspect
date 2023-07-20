@@ -21,6 +21,7 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
   }
 
 
+
   setRelevantData(prevRelevantData => {
     const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
 
@@ -52,7 +53,7 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
         method,
         status,
         protocol,
-        source: null,
+        rendering: null,
         relativeStartTime: 0,
         trueStartTime: startTime,
         trueEndTime: endTime,
@@ -85,12 +86,11 @@ function sortRelevant(relevantData: IRelevantData): IRelevantData{
     const {type, trueStartTime, trueEndTime} = request;
     if(type === 'document') {
       [ssrDuration[0], ssrDuration[1]] = [trueStartTime, trueEndTime]
-      console.log(ssrDuration);
     } else {
       if(trueStartTime >= ssrDuration[0] && trueEndTime <= ssrDuration[1]){
-        request.source = "Server-side";
+        request.rendering = "Server";
       } else {
-        request.source = "Client-side";
+        request.rendering = "Client";
       }
     }
     

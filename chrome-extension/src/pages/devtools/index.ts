@@ -34,7 +34,7 @@ try {
 
       const networkObject: IAggregatedSortedData = {
         type: request._resourceType as string,
-        source: "Client-side",
+        rendering: "Client",
         method: request.request.method,
         status: request.response.status,
         protocol: protocol, 

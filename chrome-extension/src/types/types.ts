@@ -23,7 +23,7 @@ export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
 export interface IAggregatedSortedData {
   traceId?: string,
   type?: string, 
-  source: string | null,
+  rendering: string | null,
   method?: string,
   status?: number, 
   protocol?: string,

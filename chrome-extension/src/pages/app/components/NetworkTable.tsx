@@ -14,7 +14,7 @@ const NetworkTable = ({ data }: NetworkTableProps) => {
         <th className="th td">Status</th>
         <th className="th td">Protocol</th>
         <th className="th td">Time</th>
-        <th className="th td">Source</th>
+        <th className="th td">Rendering</th>
       </tr>
 
       {Array.from(data).map(([key, request]) => (

@@ -21,6 +21,12 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message) => {
+      console.log(message);
+    })
+  }, []);
+
 
   return (
     <div className='flex flex-col'>

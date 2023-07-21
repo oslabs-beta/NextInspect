@@ -32,7 +32,8 @@ export interface IAggregatedSortedData {
   trueEndTime: number,
   duration: number,
   name: string,
-  size?: number
+  size?: number,
+  clientSideOtelData: boolean | null,
 }
 
 
@@ -41,4 +42,3 @@ export type IChartJSData = {
   labels: string[],
   backgroundColors: string[]
 }
-

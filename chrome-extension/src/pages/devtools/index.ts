@@ -43,7 +43,8 @@ try {
         trueEndTime,
         duration,
         name,
-        size: request.response.bodySize
+        size: request.response.bodySize,
+        clientSideOtelData: false
       };
 
       chrome.runtime.sendMessage(networkObject);

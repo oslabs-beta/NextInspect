@@ -15,11 +15,8 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
 
   if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
 
-  if(name.startsWith("/_next/static/")){
-    const lastIndex = name.lastIndexOf("/");
-    name = name.slice(lastIndex + 1);
-  }
-
+  const lastIndex = name.lastIndexOf("/");
+  name = name.slice(lastIndex + 1);
 
 
   setRelevantData(prevRelevantData => {
@@ -58,7 +55,8 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
         trueStartTime: startTime,
         trueEndTime: endTime,
         duration: endTime - startTime,
-        name
+        name,
+        clientSideOtelData: null
       };
 
 
@@ -82,19 +80,21 @@ function sortRelevant(relevantData: IRelevantData): IRelevantData{
 
  const ssrDuration: number[] = [];
 
-  sortedMap.forEach(request => {
+  sortedMap.forEach((request, key) => {
     const {type, trueStartTime, trueEndTime} = request;
+    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
+
     if(type === 'document') {
       [ssrDuration[0], ssrDuration[1]] = [trueStartTime, trueEndTime]
     } else {
       if(trueStartTime >= ssrDuration[0] && trueEndTime <= ssrDuration[1]){
         request.rendering = "Server";
-      } else {
-        request.rendering = "Client";
+        request.clientSideOtelData = false;
+      } else  if('traceId' in request){
+        request.clientSideOtelData = true;
       }
     }
-    
-    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
+   
   })
 
  return sortedMap;

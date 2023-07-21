@@ -23,10 +23,11 @@ function App() {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
-      if(message.type === 'document') sortWithChromeData(setRelevantData, message);
+      if(!(message.type === "websocket")){
+        sortWithChromeData(setRelevantData, message);
+      }
     })
   }, []);
-
 
   return (
     <div className='flex flex-col'>

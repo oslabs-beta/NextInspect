@@ -18,7 +18,9 @@ const NetworkTable = ({ data }: NetworkTableProps) => {
       </tr>
 
       {Array.from(data).map(([key, request]) => (
-        <TableRow key={key} data={request} />
+        !request.clientSideOtelData ? (
+          <TableRow key={key} data={request} />
+        ) : null
       ))}
     </table>
   )

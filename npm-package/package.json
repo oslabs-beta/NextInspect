@@ -11,7 +11,7 @@
     "test": "jest",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "semantic-release": "semantic-release",
+    "semantic-release": "semantic-release --branches main",
     "commit": "git-cz"
   },
   "repository": {

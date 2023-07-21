@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
-      if(!(message.type === "websocket")){
+      if(!(message.type === "websocket" && message.name === "webpack-hmr")){
         sortWithChromeData(setRelevantData, message);
       }
     })

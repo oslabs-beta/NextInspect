@@ -3,7 +3,7 @@ import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
 import {IRelevantData} from '../../types/types.ts';
-import {aggregateAndSort} from './functions/aggregateAndSort.ts';
+import {aggregateAndSort, sortWithChromeData} from './functions/aggregateAndSort.ts';
 import ClearState from './components/ClearState.tsx';
 import Reload from './components/Reload.tsx';
 
@@ -21,6 +21,12 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message) => {
+      if(message.type === 'document') sortWithChromeData(setRelevantData, message);
+    })
+  }, []);
+
 
   return (
     <div className='flex flex-col'>
@@ -29,10 +35,12 @@ function App() {
       </div>
 
       {relevantData.size > 0 ?
-        <div>
-          <ClearState setRelevant={setRelevantData} />
+        <>
+          <div className="flex justify-end">
+            <ClearState setRelevant={setRelevantData} />
+          </div>
           <NetworkTable data={relevantData}/>
-        </div>
+        </>
         :
         <Reload/>
       }

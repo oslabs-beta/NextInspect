@@ -1,4 +1,4 @@
-import { getChartJSData, getChartJSLabels} from "../functions/chartJSData";
+import { getChartJSData} from "../functions/chartJSData";
 
 import {
   Chart as ChartJS,
@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { ILengthsOfChartBars, IRelevantData } from "../../../types/types";
+import { IRelevantData } from "../../../types/types";
 
 
 
@@ -65,18 +65,18 @@ const options = {
 
 
 const WaterfallChart = ({data} : WaterfallChartProps) => {
-  const labels: string[]= getChartJSLabels(data);
 
-  const chartJSData: ILengthsOfChartBars = getChartJSData(data);
+  const {barLengths, labels, backgroundColors} = getChartJSData(data)
 
   const chartData = {
     labels,
     datasets: [
       {
         label: 'All Requests', 
-        data: chartJSData,
-        borderColor: 'rgb(119, 219, 137)',
-        backgroundColor: 'rgba(1, 19, 1, 0.5)',
+        data: barLengths,
+        borderColor: 'rgb(0, 0, 0)',
+        backgroundColor: backgroundColors,
+        borderWidth: 0,
       },
     ],
   };

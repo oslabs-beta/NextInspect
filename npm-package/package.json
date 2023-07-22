@@ -8,11 +8,10 @@
   },
   "scripts": {
     "start": "node dist/server.js",
-    "test": "jest --runInBand --detectOpenHandles --forceExit",
-    "coverage": "jest --coverage",
+    "test": "jest --runInBand",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "semantic-release": "semantic-release --branches main",
+    "semantic-release": "semantic-release",
     "commit": "git-cz"
   },
   "repository": {
@@ -26,8 +25,6 @@
   },
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
-    "@babel/preset-env": "^7.22.7",
-    "@babel/preset-typescript": "^7.22.5",
     "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
     "@opentelemetry/instrumentation": "^0.39.1",
     "@opentelemetry/instrumentation-http": "^0.39.1",
@@ -35,11 +32,8 @@
     "@opentelemetry/sdk-node": "^0.40.0",
     "@opentelemetry/sdk-trace-node": "^1.13.0",
     "@opentelemetry/semantic-conventions": "^1.13.0",
-    "async": "^3.2.4",
     "cors": "^2.8.5",
-    "eventsource": "^2.0.2",
     "express": "^4.18.2",
-    "node-mocks-http": "^1.12.2",
     "nodemon": "^2.0.22",
     "opentelemetry-instrumentation-express": "^0.35.0"
   },
@@ -47,7 +41,7 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "git-cz": "^4.9.0",
-    "jest": "^29.6.1",
+    "jest": "^29.5.0",
     "semantic-release": "^21.0.7",
     "supertest": "^6.3.3",
     "typescript": "^5.1.3"

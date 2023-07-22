@@ -43,7 +43,6 @@ try {
         trueEndTime,
         duration,
         name,
-        size: request.response.bodySize,
         clientSideOtelData: false
       };
 

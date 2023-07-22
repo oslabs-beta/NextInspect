@@ -7,7 +7,7 @@ export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanD
     return;
   }
   
-  let {name, method, traceId, startTime, endTime, status, protocol, size} = incomingSpanData;
+  let {name, method, traceId, startTime, endTime, status, protocol} = incomingSpanData;
 
   if(name.startsWith("/?key=")) return;
 
@@ -42,8 +42,6 @@ export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanD
 
       if(existingData!.protocol === undefined && 'protocol' in incomingSpanData) existingData!.protocol = incomingSpanData.protocol;
 
-      if(existingData!.size === undefined && 'size' in incomingSpanData) existingData!.size = incomingSpanData.size;
-
       if(hasUpdatedTime) {
         existingData!.duration = existingData!.trueEndTime - existingData!.trueStartTime
       };
@@ -60,7 +58,6 @@ export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanD
         trueEndTime: endTime,
         duration: endTime - startTime,
         name,
-        size,
         clientSideOtelData: null
       };
 

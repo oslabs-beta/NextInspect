@@ -1,7 +1,7 @@
-import { IAggregatedSortedData, IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
+import { IAggregatedSortedData, IOtelData, RelevantData, SetRelevantData } from '../../../types/types';
 
 
-export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpanData: IOtelData): void {  
+export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanData: IOtelData): void {  
 
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;
@@ -20,7 +20,7 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
 
 
   setRelevantData(prevRelevantData => {
-    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
 
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
 
@@ -63,13 +63,13 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
       newRelevantData.set(newKeyName,updatedData);
     }
     
-    const sortedRelevantData: IRelevantData = sortRelevant(newRelevantData);
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
     return sortedRelevantData;
     
   });
 }
 
-function sortRelevant(relevantData: IRelevantData): IRelevantData{
+function sortRelevant(relevantData: RelevantData): RelevantData{
  const entries = Array.from(relevantData.entries());
 
  entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);
@@ -100,15 +100,15 @@ function sortRelevant(relevantData: IRelevantData): IRelevantData{
  return sortedMap;
 }
 
-export function sortWithChromeData(setRelevantData: ISetRelevantData, chromeData: IAggregatedSortedData): void{
+export function sortWithChromeData(setRelevantData: SetRelevantData, chromeData: IAggregatedSortedData): void{
   setRelevantData(prevRelevantData => {
-    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
 
     const {type, name, trueStartTime} = chromeData;
     const newKeyName: string = `chromeData: ${type}, ${name}, ${trueStartTime}`;
 
     newRelevantData.set(newKeyName, chromeData);
-    const sortedRelevantData: IRelevantData = sortRelevant(newRelevantData);
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
     return sortedRelevantData;
 
   })

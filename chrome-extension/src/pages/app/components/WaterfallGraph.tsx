@@ -10,12 +10,12 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { IRelevantData } from "../../../types/types";
+import { RelevantData } from "../../../types/types";
 
 
 
 interface WaterfallChartProps {
-  data: IRelevantData;
+  data: RelevantData;
 }
 
 

@@ -16,9 +16,9 @@ export interface IOtelData {
     name: string
 }
 
-export type IRelevantData = Map<string, IAggregatedSortedData>; 
+export type RelevantData = Map<string, IAggregatedSortedData>; 
 
-export type ISetRelevantData= Dispatch<SetStateAction<IRelevantData>>;
+export type SetRelevantData= Dispatch<SetStateAction<RelevantData>>;
 
 export interface IAggregatedSortedData {
   traceId?: string,
@@ -32,13 +32,13 @@ export interface IAggregatedSortedData {
   trueEndTime: number,
   duration: number,
   name: string,
-  size?: number
+  size?: number,
+  clientSideOtelData: boolean | null,
 }
 
 
-export type IChartJSData = {
+export interface IChartJSData {
   barLengths: number[][],
   labels: string[],
   backgroundColors: string[]
 }
-

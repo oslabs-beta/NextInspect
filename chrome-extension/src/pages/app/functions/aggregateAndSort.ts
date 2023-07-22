@@ -1,7 +1,7 @@
-import { IAggregatedSortedData, IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
+import { IAggregatedSortedData, IOtelData, RelevantData, SetRelevantData } from '../../../types/types';
 
 
-export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpanData: IOtelData): void {  
+export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanData: IOtelData): void {  
 
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;
@@ -15,15 +15,12 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
 
   if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
 
-  if(name.startsWith("/_next/static/")){
-    const lastIndex = name.lastIndexOf("/");
-    name = name.slice(lastIndex + 1);
-  }
-
+  const lastIndex = name.lastIndexOf("/");
+  name = name.slice(lastIndex + 1);
 
 
   setRelevantData(prevRelevantData => {
-    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
 
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
 
@@ -58,20 +55,21 @@ export function aggregateAndSort(setRelevantData:ISetRelevantData,  incomingSpan
         trueStartTime: startTime,
         trueEndTime: endTime,
         duration: endTime - startTime,
-        name
+        name,
+        clientSideOtelData: null
       };
 
 
       newRelevantData.set(newKeyName,updatedData);
     }
     
-    const sortedRelevantData: IRelevantData = sortRelevant(newRelevantData);
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
     return sortedRelevantData;
     
   });
 }
 
-function sortRelevant(relevantData: IRelevantData): IRelevantData{
+function sortRelevant(relevantData: RelevantData): RelevantData{
  const entries = Array.from(relevantData.entries());
 
  entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);
@@ -82,33 +80,35 @@ function sortRelevant(relevantData: IRelevantData): IRelevantData{
 
  const ssrDuration: number[] = [];
 
-  sortedMap.forEach(request => {
+  sortedMap.forEach((request, key) => {
     const {type, trueStartTime, trueEndTime} = request;
+    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
+
     if(type === 'document') {
       [ssrDuration[0], ssrDuration[1]] = [trueStartTime, trueEndTime]
     } else {
       if(trueStartTime >= ssrDuration[0] && trueEndTime <= ssrDuration[1]){
         request.rendering = "Server";
-      } else {
-        request.rendering = "Client";
+        request.clientSideOtelData = false;
+      } else  if('traceId' in request){
+        request.clientSideOtelData = true;
       }
     }
-    
-    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
+   
   })
 
  return sortedMap;
 }
 
-export function sortWithChromeData(setRelevantData: ISetRelevantData, chromeData: IAggregatedSortedData): void{
+export function sortWithChromeData(setRelevantData: SetRelevantData, chromeData: IAggregatedSortedData): void{
   setRelevantData(prevRelevantData => {
-    const newRelevantData: IRelevantData = new Map([...prevRelevantData.entries()]);
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
 
     const {type, name, trueStartTime} = chromeData;
     const newKeyName: string = `chromeData: ${type}, ${name}, ${trueStartTime}`;
 
     newRelevantData.set(newKeyName, chromeData);
-    const sortedRelevantData: IRelevantData = sortRelevant(newRelevantData);
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
     return sortedRelevantData;
 
   })

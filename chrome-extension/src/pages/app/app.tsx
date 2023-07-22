@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx';
-import {IRelevantData} from '../../types/types.ts';
+import {RelevantData} from '../../types/types.ts';
 import {aggregateAndSort, sortWithChromeData} from './functions/aggregateAndSort.ts';
 import ClearState from './components/ClearState.tsx';
 import Reload from './components/Reload.tsx';
 
 function App() {
-  const [relevantData, setRelevantData] = useState<IRelevantData>(new Map()); 
+  const [relevantData, setRelevantData] = useState<RelevantData>(new Map()); 
   
   useEffect(() => {
     const sseStream = new EventSource('http://localhost:3002/stream/sse');
@@ -23,10 +23,11 @@ function App() {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
-      if(message.type === 'document') sortWithChromeData(setRelevantData, message);
+      if(!(message.type === "websocket" && message.name === "webpack-hmr")){
+        sortWithChromeData(setRelevantData, message);
+      }
     })
   }, []);
-
 
   return (
     <div className='flex flex-col'>

@@ -4,39 +4,62 @@ import express, { Express, NextFunction, Request, Response, ErrorRequestHandler 
 const server = 'http://localhost:3002'
 const EventSource = require('eventsource');
 import {EventEmitter} from 'events'; 
+import { streamController } from '../src/controllers/streamController'
+
+//  describe('Express Routes', () => {
+//      describe('/', () => {
+//          it('GET', () => {
+//              return request(server)
+//                  .get('/')
+//                  .expect(404)
+//     })
+//   })
+// })
 
 
-
- describe('Express Routes', () => {
-     describe('/', () => {
-         it('GET', () => {
-             return request(server)
-                 .get('/')
-                 .expect(404)
-    })
-  })
-})
-
-//Testing for GET request to /sse route
 describe('/stream', () => {
+//Mocking endpoint elements
 
+it('should call middleware function', () => {
 
-it('GET request', async() => { 
+const mockSend = jest.fn()
+streamController.sendEvent = mockSend; 
 
-await app.get('/stream/sse'); 
-  
- await request(app)
-  .post('/stream/otel')
-  .send(requestMock)
+app.get('/stream/sse')
+expect(streamController.sendEvent).toBeCalled()
 
-const sseStream = new EventSource('http://localhost:3002/stream/sse')
-sseStream.addEventListener('newOtelEvent', (e) => { 
-  console.log(e.data)
 })
-}) 
 })
 
-//Request mock to test post route
+
+//Attempt at utilizing EventEmitter and EventSource
+//   let serverEvent, appEvent
+
+// beforeEach(function (done) {
+//   const emitter = new EventEmitter(); 
+//   appEvent = express()
+//   serverEvent = appEvent.listen(3000, done)
+// })
+
+// afterEach(function(done) {
+//   serverEvent.close(done)
+// })
+
+// it ('should call the middleware function', (done) => { 
+// const eventSource = new EventSource('http://localhost:3000/test')
+
+// emitter.emit('test message', 1500)
+
+// eventSource.addEventListener = ('test message', (data) => { 
+// console.log(data)
+// eventSource.close()
+// done()
+// })
+// })
+
+
+
+// //Request mock to test post route
 const requestMock = {
     resourceSpans: [
       {

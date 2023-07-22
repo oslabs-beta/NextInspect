@@ -1,15 +1,18 @@
-import { SetRelevantData } from "../../../types/types";
+import { SetRelevantData } from '../../../types/types'
 
 interface ClearStateProps {
-  setRelevant: SetRelevantData;
+  setRelevant: SetRelevantData
 }
 
-const ClearState = ({setRelevant} : ClearStateProps) => {
+const ClearState = ({ setRelevant }: ClearStateProps) => {
   const clearState = () => {
-    setRelevant(new Map());
+    setRelevant(new Map())
   }
   return (
-    <button className="bg-white bg-opacity-10 hover:bg-opacity-50 border-[1px] border-slate-200 my-5 p-1 mr-2 rounded-md" onClick = {clearState}>
+    <button
+      className="bg-white bg-opacity-10 hover:bg-opacity-50 border border-slate-200 my-3 p-1 mr-2 rounded-md"
+      onClick={clearState}
+    >
       Clear History
     </button>
   )

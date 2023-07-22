@@ -29,6 +29,10 @@ function App() {
     })
   }, []);
 
+  useEffect(() => {
+    console.log(relevantData);
+  }, [relevantData]);
+
   return (
     <div className='flex flex-col'>
       <div className={relevantData.size > 0 ? 'h-[33vh]' : 'h-[33vh] border-b-[1px] border-slate-400'}>

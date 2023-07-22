@@ -32,7 +32,6 @@ export interface IAggregatedSortedData {
   trueEndTime: number,
   duration: number,
   name: string,
-  size?: number,
   clientSideOtelData: boolean | null,
 }
 

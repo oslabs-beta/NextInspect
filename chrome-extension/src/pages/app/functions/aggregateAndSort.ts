@@ -18,6 +18,8 @@ export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanD
   const lastIndex = name.lastIndexOf("/");
   name = name.slice(lastIndex + 1);
 
+  
+
 
   setRelevantData(prevRelevantData => {
     const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);

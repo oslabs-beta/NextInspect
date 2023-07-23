@@ -2,74 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-}
-body {
-  background-color: rgb(41, 42, 45);
-  color: white;
-}
 
-
-tr:nth-child(even) {
-  background-color: rgb(32, 33, 36);
-} 
-
-
-
-table {
-  border: 1.5px solid blue;
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-}
-
-th{
-  border: 1px solid rgb(74, 76, 80);
-}
-
-th, td {
-  font-weight: normal;
-  border-right: 1px solid rgb(144, 143, 143);
-  padding: 15px;
-  font-size: small;
-  max-width: 10px;
-  max-height: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-tr:hover:not(:first-child){
-  background-color: rgb(36, 36, 93);
-}
-
-th:hover{
-  background-color: rgb(22, 34, 102);
-} 
-
-
-.arrow {
-  height: 10px;
-  width: 10px;
-  display:inline-block;
-  clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
-  background-color: aliceblue;
-  margin-right: 5px;
-}
-
-.arrowDown {
-  height: 10px;
-  width: 10px;
-  display:inline-block;
-  clip-path: polygon(0% 50%, 100% 50%, 50% 100%);
-  background-color: aliceblue;
-  margin-right: 5px;
-}
-
-.noPadding {
-  padding: 15px 15px 15px 0;
+@layer components {
+  .th {
+    @apply border
+      border-[#4a4c50];
+  }
+  .td {
+    @apply border
+      border-[#908f8f]
+      p-3.5
+      text-xs
+      max-w-sm
+      max-h-[10px]
+      overflow-x-hidden
+      text-ellipsis
+      whitespace-nowrap
+      text-left;
+  }
 }

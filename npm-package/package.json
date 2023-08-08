@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.22.10",
     "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
     "@opentelemetry/instrumentation": "^0.39.1",
     "@opentelemetry/instrumentation-http": "^0.39.1",
@@ -38,7 +39,6 @@
     "opentelemetry-instrumentation-express": "^0.35.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "git-cz": "^4.9.0",

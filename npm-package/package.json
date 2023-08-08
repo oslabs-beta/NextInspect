@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node dist/server.js",
-    "test": "jest --runInBand",
+    "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "semantic-release": "semantic-release",

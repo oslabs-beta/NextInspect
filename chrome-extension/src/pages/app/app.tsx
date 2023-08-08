@@ -47,7 +47,7 @@ function App() {
 
       {relevantData.size > 0 ? (
         <>
-          <div className="flex justify-end items-center">
+          <div className="flex justify-between">
             <Legend />
             <ClearState setRelevant={setRelevantData} />
           </div>

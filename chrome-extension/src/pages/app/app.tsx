@@ -34,7 +34,7 @@ function App() {
   }, [])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col text-white font-medium">
       <div
         className={
           relevantData.size > 0

@@ -8,8 +8,6 @@ import express, {
   response,
 } from 'express'
 const server = 'http://localhost:3002'
-const EventSource = require('eventsource')
-import { EventEmitter } from 'events'
 
 describe('Express Routes', () => {
   describe('/', () => {

@@ -26,6 +26,7 @@
   "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
   "dependencies": {
     "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.5",
     "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
     "@opentelemetry/instrumentation": "^0.39.1",
     "@opentelemetry/instrumentation-http": "^0.39.1",

@@ -1,13 +1,13 @@
-import { IOtelData, IRelevantData, ISetRelevantData } from '../../../types/types';
+import { IAggregatedSortedData, IOtelData, RelevantData, SetRelevantData } from '../../../types/types';
 
 
-export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData: IOtelData): void {  
+export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanData: IOtelData): void {  
 
   if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
     return;
   }
   
-  let {name, method, traceId, startTime, endTime, applicationType, originatingService, status, protocol} = incomingSpanData;
+  let {name, method, traceId, startTime, endTime, status, protocol} = incomingSpanData;
 
   if(name.startsWith("/?key=")) return;
 
@@ -15,19 +15,19 @@ export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData
 
   if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
 
-  if(name.startsWith("/_next/static/")){
-    const lastIndex = name.lastIndexOf("/");
-    name = name.slice(lastIndex + 1);
-  }
+  const lastIndex = name.lastIndexOf("/");
+  name = name.slice(lastIndex + 1);
+
+  
 
 
-  setRelevant(prevRelevant => {
-    const newRelevant: IRelevantData = new Map([...prevRelevant.entries()]);
+  setRelevantData(prevRelevantData => {
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
 
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
 
-    if(newRelevant.has(newKeyName)){
-      const existingData = newRelevant.get(newKeyName);
+    if(newRelevantData.has(newKeyName)){
+      const existingData = newRelevantData.get(newKeyName);
       let hasUpdatedTime: boolean = false;
 
       if(startTime < existingData!.trueStartTime) {
@@ -49,30 +49,30 @@ export function aggregateAndSort(setRelevant:ISetRelevantData,  incomingSpanData
     }else{
       const updatedData = {
         traceId,
-        applicationType,
-        originatingService,
         method,
         status,
         protocol,
+        rendering: null,
         relativeStartTime: 0,
         trueStartTime: startTime,
         trueEndTime: endTime,
         duration: endTime - startTime,
-        name
+        name,
+        clientSideOtelData: null
       };
 
 
-      newRelevant.set(newKeyName,updatedData);
+      newRelevantData.set(newKeyName,updatedData);
     }
     
-    const sortedRelevant: IRelevantData = sortRelevant(newRelevant);
-    return sortedRelevant;
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
+    return sortedRelevantData;
     
   });
 }
 
-function sortRelevant(relevant: IRelevantData): IRelevantData{
- const entries = Array.from(relevant.entries());
+function sortRelevant(relevantData: RelevantData): RelevantData{
+ const entries = Array.from(relevantData.entries());
 
  entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);
 
@@ -80,9 +80,38 @@ function sortRelevant(relevant: IRelevantData): IRelevantData{
 
  const earliestEntry = sortedMap.entries().next().value;
 
-  sortedMap.forEach(request => {
-    request.relativeStartTime = request.trueStartTime - earliestEntry[1].trueStartTime;
+ const ssrDuration: number[] = [];
+
+  sortedMap.forEach((request, key) => {
+    const {type, trueStartTime, trueEndTime} = request;
+    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
+
+    if(type === 'document') {
+      [ssrDuration[0], ssrDuration[1]] = [trueStartTime, trueEndTime]
+    } else {
+      if(trueStartTime >= ssrDuration[0] && trueEndTime <= ssrDuration[1]){
+        request.rendering = "Server";
+        request.clientSideOtelData = false;
+      } else  if('traceId' in request){
+        request.clientSideOtelData = true;
+      }
+    }
+   
   })
 
  return sortedMap;
+}
+
+export function sortWithChromeData(setRelevantData: SetRelevantData, chromeData: IAggregatedSortedData): void{
+  setRelevantData(prevRelevantData => {
+    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
+
+    const {type, name, trueStartTime} = chromeData;
+    const newKeyName: string = `chromeData: ${type}, ${name}, ${trueStartTime}`;
+
+    newRelevantData.set(newKeyName, chromeData);
+    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
+    return sortedRelevantData;
+
+  })
 }

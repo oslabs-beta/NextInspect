@@ -3,5 +3,4 @@ coverage/
 
 .DS_Store
 .env
-.babel.config.js
 

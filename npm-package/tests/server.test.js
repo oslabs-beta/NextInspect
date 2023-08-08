@@ -1,12 +1,4 @@
 const request = require('supertest')
-import express, {
-  Express,
-  NextFunction,
-  Request,
-  Response,
-  ErrorRequestHandler,
-  response,
-} from 'express'
 const server = 'http://localhost:3002'
 
 describe('Express Routes', () => {

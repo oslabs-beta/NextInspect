@@ -39,12 +39,12 @@ app.use(
 )
 
 // connect to express port
-// app
-//   .listen(PORT, (): void => {
-//     console.log('NextInspect express npm package running on on port:' + PORT)
-//   })
-//   .on('error', function (err) {
-//     //the listener is set up to listen for error events (ie. port already in use or inaccessible), callback function will execute
-//     console.log('error: ', err)
-//   })
+app
+  .listen(PORT, (): void => {
+    console.log('NextInspect express npm package running on on port:' + PORT)
+  })
+  .on('error', function (err) {
+    //the listener is set up to listen for error events (ie. port already in use or inaccessible), callback function will execute
+    console.log('error: ', err)
+  })
 export default app

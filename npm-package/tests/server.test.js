@@ -10,7 +10,6 @@ import express, {
 const server = 'http://localhost:3002'
 const EventSource = require('eventsource')
 import { EventEmitter } from 'events'
-import { getHeapStatistics } from 'v8'
 
 describe('Express Routes', () => {
   describe('/', () => {

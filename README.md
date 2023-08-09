@@ -86,7 +86,7 @@ NextInspect provides a waterfall chart showing all network requests made in both
 
 Network metrics are served in realtime and NextInspect supports additional requests streamed in after the initial page load. Sequential page loads will be added to the same chart. To view requests from individual page loads, simply click the "Clear History" button before navigating to a new page.
 
-![](../assets/demo.png)
+![](./assets/demo.png)
 
 ## Roadmap
 

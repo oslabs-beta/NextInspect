@@ -90,7 +90,7 @@ Network metrics are served in realtime and NextInspect supports additional reque
 
 ## Roadmap
 
-Here are some features our team is looking to bring to NextInspect:
+Here are some features our team is looking to bring to NextInspect in the near future:
 
 - Filtering options for chart columns to filter requests by name, method, rendering, etc.
 - Ability to export chart metrics to a HAR file.

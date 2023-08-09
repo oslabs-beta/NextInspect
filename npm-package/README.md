@@ -10,13 +10,13 @@
    - [Installation](#installation)
    - [Quick Start](#quick-start)
 3. [Features](#features)
-   - [Cluster Tree](#cluster-tree)
+   - [Waterfall Graph](#waterfall-graph)
    - [Realtime Metrics](#realtime-metrics)
-   - [Cluster Manager](#cluster-manager)
-   - [Dead Letter Queue Support](#dead-letter-queue-support)
 4. [Roadmap](#roadmap)
-5. [Maintainers](#maintainers)
-6. [License](#license)
+5. [Contributions](#contributions)
+6. [Maintainers](#maintainers)
+7. [Changelog](#changelog)
+8. [License](#license)
 
 ## **Description**
 
@@ -78,7 +78,34 @@ $ npm run nextinspect
 
 ## Features
 
+### Waterfall Graph
+
+NextInspect provides a waterfall chart showing all network requests made in both client-side and server-side rendered components. Requests originating from server-side rendered components are shown in pink/purple, while client-side rendered requests are in green. The time on the X-axis is measured in milliseconds.
+
+### Realtime Metrics
+
+Network metrics are served in realtime and NextInspect supports additional requests streamed in after the initial page load. Sequential page loads will be added to the same chart. To view requests from individual page loads, simply click the "Clear History" button before navigating to a new page.
+
+![](../assets/demo.png)
+
 ## Roadmap
+
+Here are some features our team is looking to bring to NextInspect:
+
+- Filtering options for chart columns to filter requests by name, method, rendering, etc.
+- Ability to export chart metrics to a HAR file.
+
+If you have any suggestions or find any bugs, please feel free to open an issue.
+
+## Contributions
+
+Our team welcomes and encourages new contributions. Any changes to the product resources such as documentation, code, etc should be made through pull requests. All pull requests will be reviewed before merging.
+
+## Changelog
+
+### [1.0.1] - Aug 9, 2023
+
+#### Launched
 
 ## Maintainers
 

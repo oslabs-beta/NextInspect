@@ -9,10 +9,10 @@ export default defineConfig({
       targets: [
         {
           src: 'manifest.json',
-          dest: './'
-        }
-      ]
-    })
+          dest: './',
+        },
+      ],
+    }),
   ],
   build: {
     outDir: './dist',

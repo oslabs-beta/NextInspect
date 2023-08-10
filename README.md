@@ -110,7 +110,7 @@ Our team welcomes and encourages new contributions. Any changes to the product r
 ## Maintainers
 
 - Yourui Ruan | [GitHub](https://github.com/YouruiR) | [Linkedin](https://www.linkedin.com/in/YouruiR/)
-- Lucia Li | [GitHub](https://github.com/li-lucia) | [Linkedin](linkedin.com/in/li-lucia-j)
+- Lucia Li | [GitHub](https://github.com/li-lucia) | [Linkedin](https://www.linkedin.com/in/li-lucia-j)
 - Michael Bildstein | [GitHub](https://github.com/mbildstein) | [Linkedin](https://www.linkedin.com/in/mbildstein/)
 - William Nguyen | [GitHub](https://github.com/wnguye03) | [Linkedin](https://www.linkedin.com/in/william-nguyen202103/)
 - David An | [GitHub](https://github.com/davidan1989) | [Linkedin](https://www.linkedin.com/in/david-an-63b44317/)

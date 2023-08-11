@@ -3,21 +3,11 @@
 @tailwind utilities;
 
 
-@layer components {
-  .th {
-    @apply border
-      border-[#4a4c50];
-  }
-  .td {
-    @apply border
-      border-[#908f8f]
-      p-3.5
-      text-xs
-      max-w-sm
-      max-h-[10px]
-      overflow-x-hidden
-      text-ellipsis
-      whitespace-nowrap
-      text-left;
-  }
+.th {
+  @apply p-3.5 text-xs m-1 text-left;
+}
+
+.td {
+  @apply border border-gray-500 p-3.5 text-xs h-[10px] whitespace-nowrap text-left truncate;
+  max-width: 0; 
 }

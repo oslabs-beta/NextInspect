@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/oslabs-beta/NextInspect/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/NextInspect#readme",
+  "homepage": "https://nextinspect.dev",
   "dependencies": {
     "@opentelemetry/exporter-trace-otlp-http": "^0.39.1",
     "@opentelemetry/instrumentation": "^0.39.1",

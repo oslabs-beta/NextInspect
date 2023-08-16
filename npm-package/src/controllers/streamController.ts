@@ -25,6 +25,7 @@ export const streamController = {
             res.setHeader('Cache-Control', 'no-cache');
             res.setHeader('Connection', 'keep-alive');
             res.setHeader('Access-Control-Allow-Origin', '*');
+
             otelEventEmitter.on('newOtelEvent', (data: OtelData) => {
                 const jsonString = JSON.stringify(data);
                 res.write(`data:` + `${jsonString}\n\n`)

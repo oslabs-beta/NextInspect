@@ -10,28 +10,22 @@ import {
 import ClearState from './components/ClearState.tsx'
 import Reload from './components/Reload.tsx'
 import Legend from './components/legend.tsx'
+import { setupChromeListener, setupSSEListener } from './functions/setUpListeners.ts'
 
 function App() {
   const [relevantData, setRelevantData] = useState<RelevantData>(new Map())
 
   useEffect(() => {
-    const sseStream = new EventSource('http://localhost:3002/stream/sse')
-    sseStream.addEventListener('message', (e) => {
-      try {
-        aggregateAndSort(setRelevantData, JSON.parse(e.data))
-      } catch (err) {
-        console.log('failed', err)
-      }
-    })
-  }, [])
+    // Set up SSE and Chrome listeners
+    const cleanupSSE = setupSSEListener(setRelevantData, aggregateAndSort);
+    const cleanupChrome = setupChromeListener(setRelevantData, sortWithChromeData);
 
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener((message) => {
-      if (!(message.type === 'websocket' && message.name === 'webpack-hmr')) {
-        sortWithChromeData(setRelevantData, message)
-      }
-    })
-  }, [])
+    // Clean up SSE and Chrome listeners on unmount
+    return () => {
+      cleanupSSE();
+      cleanupChrome();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col text-white font-medium">

@@ -1,7 +1,7 @@
-import { SetRelevantData } from '../../../types/types'
+import { SetDataEntriesMap  } from '../../../types/types'
 
 interface ClearStateProps {
-  setRelevant: SetRelevantData
+  setRelevant: SetDataEntriesMap 
 }
 
 const ClearState = ({ setRelevant }: ClearStateProps) => {

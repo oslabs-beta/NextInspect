@@ -1,13 +1,13 @@
-import { SetRelevantData } from '../../../types/types'
+import { SetDataEntriesMap  } from '../../../types/types'
 import { aggregateAndSort, sortWithChromeData } from './aggregateAndSort'
 
 
-export function setupSSEListener(setRelevantData:SetRelevantData, aggregateAndSort:Function) {
+export function setupSSEListener(setDataEntriesMap :SetDataEntriesMap , aggregateAndSort:Function) {
   const sseStream = new EventSource('http://localhost:3002/stream/sse');
 
   const handleSSEMessage = (e:any) => {
     try {
-      aggregateAndSort(setRelevantData, JSON.parse(e.data));
+      aggregateAndSort(setDataEntriesMap , JSON.parse(e.data));
     } catch (err) {
       console.log('failed', err);
     }
@@ -22,10 +22,10 @@ export function setupSSEListener(setRelevantData:SetRelevantData, aggregateAndSo
   };
 }
 
-export function setupChromeListener(setRelevantData:SetRelevantData, sortWithChromeData:Function) {
+export function setupChromeListener(SetDataEntriesMap :SetDataEntriesMap , sortWithChromeData:Function) {
   const handleChromeRuntimeMessage = (message:any) => {
     if (!(message.type === 'websocket' && message.name === 'webpack-hmr')) {
-      sortWithChromeData(setRelevantData, message);
+      sortWithChromeData(SetDataEntriesMap , message);
     }
   };
 

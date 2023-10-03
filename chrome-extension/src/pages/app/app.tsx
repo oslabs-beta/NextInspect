@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx'
-import { RelevantData } from '../../types/types.ts'
+import { DataEntriesMap } from '../../types/types.ts'
 import {
   aggregateAndSort,
   sortWithChromeData,
@@ -13,12 +13,12 @@ import Legend from './components/legend.tsx'
 import { setupChromeListener, setupSSEListener } from './functions/setUpListeners.ts'
 
 function App() {
-  const [relevantData, setRelevantData] = useState<RelevantData>(new Map())
+  const [dataEntriesMap, setDataEntriesMap] = useState<DataEntriesMap>(new Map())
 
   useEffect(() => {
     // Set up SSE and Chrome listeners
-    const cleanupSSE = setupSSEListener(setRelevantData, aggregateAndSort);
-    const cleanupChrome = setupChromeListener(setRelevantData, sortWithChromeData);
+    const cleanupSSE = setupSSEListener(setDataEntriesMap, aggregateAndSort);
+    const cleanupChrome = setupChromeListener(setDataEntriesMap, sortWithChromeData);
 
     // Clean up SSE and Chrome listeners on unmount
     return () => {
@@ -31,21 +31,21 @@ function App() {
     <div className="flex flex-col text-white font-medium">
       <div
         className={
-          relevantData.size > 0
+          dataEntriesMap.size > 0
             ? 'h-[33vh]'
             : 'h-[33vh] border-b-[1px] border-slate-400'
         }
       >
-        <WaterfallChart data={relevantData} />
+        <WaterfallChart data={dataEntriesMap} />
       </div>
 
-      {relevantData.size > 0 ? (
+      {dataEntriesMap.size > 0 ? (
         <>
           <div className="flex justify-between">
             <Legend />
-            <ClearState setRelevant={setRelevantData} />
+            <ClearState setRelevant={setDataEntriesMap} />
           </div>
-          <NetworkTable data={relevantData} />
+          <NetworkTable data={dataEntriesMap} />
         </>
       ) : (
         <Reload />

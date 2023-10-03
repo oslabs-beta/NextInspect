@@ -1,6 +1,6 @@
-import { IChartJSData, RelevantData } from "../../../types/types";
+import { IChartJSData, DataEntriesMap } from "../../../types/types";
 
-export function getChartJSData(allRequestData: RelevantData): IChartJSData{
+export function getChartJSData(allRequestData: DataEntriesMap): IChartJSData{
   const ChartJSData: IChartJSData = {
     barLengths: [],
     labels: [],

@@ -1,117 +1,41 @@
-import { IAggregatedSortedData, IOtelData, RelevantData, SetRelevantData } from '../../../types/types';
+import { IAggregatedSortedData, IOtelData, DataEntriesMap, SetDataEntriesMap  } from '../../../types/types';
+
+import { createEntry, shouldIncludeOtelData, sortDataEntriesMap, updateEntry, updateName } from './datatUtils';
 
 
-export function aggregateAndSort(setRelevantData:SetRelevantData,  incomingSpanData: IOtelData): void {  
-
-  if(!('method' in incomingSpanData) || incomingSpanData.method === ""){
-    return;
-  }
+export function aggregateAndSort(setDataEntriesMap:SetDataEntriesMap ,  incomingSpanData: IOtelData): void {  
+  // filter out incoming data 
+  if(!shouldIncludeOtelData(incomingSpanData)) return;
   
-  let {name, method, traceId, startTime, endTime, status, protocol} = incomingSpanData;
+  // destructure data properties 
+  let {name, method, traceId} = incomingSpanData;
 
-  if(name.startsWith("/?key=")) return;
+  // update name to be more readable for user
+  name = updateName(name);
 
-  if(name === "/")return;
-
-  if(name.includes("GET") || name.includes("PATCH")|| name.includes("PUT") || name.includes("DELETE") || name.includes("POST")) return;
-
-  const lastIndex = name.lastIndexOf("/");
-  name = name.slice(lastIndex + 1);
-
-  
-
-
-  setRelevantData(prevRelevantData => {
-    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
-
+  setDataEntriesMap(prevDataEntriesMap => {
     const newKeyName: string = `${method}, ${name}, ${traceId}`;
+    let newEntryData:IAggregatedSortedData;
 
-    if(newRelevantData.has(newKeyName)){
-      const existingData = newRelevantData.get(newKeyName);
-      let hasUpdatedTime: boolean = false;
-
-      if(startTime < existingData!.trueStartTime) {
-        existingData!.trueStartTime = startTime;
-        hasUpdatedTime = true;
-      }
-      if(endTime > existingData!.trueEndTime) {
-        existingData!.trueEndTime = endTime;
-        hasUpdatedTime = true;
-      }
-      if(existingData!.status === undefined && 'status' in incomingSpanData) existingData!.status = incomingSpanData.status;
-
-      if(existingData!.protocol === undefined && 'protocol' in incomingSpanData) existingData!.protocol = incomingSpanData.protocol;
-
-      if(hasUpdatedTime) {
-        existingData!.duration = existingData!.trueEndTime - existingData!.trueStartTime
-      };
-
+    if(prevDataEntriesMap.has(newKeyName)){
+      newEntryData = updateEntry(prevDataEntriesMap, newKeyName, incomingSpanData)
     }else{
-      const updatedData = {
-        traceId,
-        method,
-        status,
-        protocol,
-        rendering: null,
-        relativeStartTime: 0,
-        trueStartTime: startTime,
-        trueEndTime: endTime,
-        duration: endTime - startTime,
-        name,
-        clientSideOtelData: null
-      };
-
-
-      newRelevantData.set(newKeyName,updatedData);
+      newEntryData = createEntry(newKeyName, incomingSpanData)
     }
     
-    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
-    return sortedRelevantData;
-    
+    const sortedDataEntriesMap: DataEntriesMap = sortDataEntriesMap(prevDataEntriesMap, [newKeyName, newEntryData]);
+
+    return sortedDataEntriesMap;
   });
 }
 
-function sortRelevant(relevantData: RelevantData): RelevantData{
- const entries = Array.from(relevantData.entries());
-
- entries.sort((a, b) => a[1].trueStartTime - b[1].trueStartTime);
-
- const sortedMap = new Map(entries);
-
- const earliestEntry = sortedMap.entries().next().value;
-
- const ssrDuration: number[] = [];
-
-  sortedMap.forEach((request, key) => {
-    const {type, trueStartTime, trueEndTime} = request;
-    request.relativeStartTime = trueStartTime - earliestEntry[1].trueStartTime;
-
-    if(type === 'document') {
-      [ssrDuration[0], ssrDuration[1]] = [trueStartTime, trueEndTime]
-    } else {
-      if(trueStartTime >= ssrDuration[0] && trueEndTime <= ssrDuration[1]){
-        request.rendering = "Server";
-        request.clientSideOtelData = false;
-      } else  if('traceId' in request){
-        request.clientSideOtelData = true;
-      }
-    }
-   
-  })
-
- return sortedMap;
-}
-
-export function sortWithChromeData(setRelevantData: SetRelevantData, chromeData: IAggregatedSortedData): void{
-  setRelevantData(prevRelevantData => {
-    const newRelevantData: RelevantData = new Map([...prevRelevantData.entries()]);
-
+export function sortWithChromeData(setDataEntriesMap: SetDataEntriesMap , chromeData: IAggregatedSortedData): void{
+  setDataEntriesMap(prevDataEntriesMap => {
     const {type, name, trueStartTime} = chromeData;
     const newKeyName: string = `chromeData: ${type}, ${name}, ${trueStartTime}`;
 
-    newRelevantData.set(newKeyName, chromeData);
-    const sortedRelevantData: RelevantData = sortRelevant(newRelevantData);
+    const sortedRelevantData: DataEntriesMap = sortDataEntriesMap(prevDataEntriesMap, [newKeyName, chromeData]);
     return sortedRelevantData;
-
   })
 }
+

@@ -16,9 +16,9 @@ export interface IOtelData {
     name: string
 }
 
-export type RelevantData = Map<string, IAggregatedSortedData>; 
+export type DataEntriesMap = Map<string, IAggregatedSortedData>; 
 
-export type SetRelevantData= Dispatch<SetStateAction<RelevantData>>;
+export type SetDataEntriesMap = Dispatch<SetStateAction<DataEntriesMap>>;
 
 export interface IAggregatedSortedData {
   traceId?: string,

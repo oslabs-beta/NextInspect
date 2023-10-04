@@ -1,7 +1,7 @@
-import { IAggregatedSortedData } from '../../../types/types'
+import { IDataEntry } from '../../../types/types'
 
 interface TableRowProps {
-  data: IAggregatedSortedData
+  data: IDataEntry
 }
 
 const TableRow = ({ data }: TableRowProps) => {

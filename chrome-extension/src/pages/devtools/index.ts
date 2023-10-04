@@ -1,4 +1,4 @@
-import { IAggregatedSortedData} from "../../types/types";
+import { IDataEntry} from "../../types/types";
 import convertToEpoch from "../app/functions/convertToEpoch";
 
 try {
@@ -32,7 +32,7 @@ try {
         name = url.slice(urlLastIndexSlash + 1);
       }
 
-      const networkObject: IAggregatedSortedData = {
+      const networkObject: IDataEntry = {
         type: request._resourceType as string,
         rendering: "Client",
         method: request.request.method,

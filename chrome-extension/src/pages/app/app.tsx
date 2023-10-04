@@ -3,10 +3,6 @@ import './App.css'
 import NetworkTable from './components/NetworkTable.tsx'
 import WaterfallChart from './components/WaterfallGraph.tsx'
 import { DataEntriesMap } from '../../types/types.ts'
-import {
-  aggregateAndSort,
-  sortWithChromeData,
-} from './functions/aggregateAndSort.ts'
 import ClearState from './components/ClearState.tsx'
 import Reload from './components/Reload.tsx'
 import Legend from './components/legend.tsx'
@@ -17,8 +13,8 @@ function App() {
 
   useEffect(() => {
     // Set up SSE and Chrome listeners
-    const cleanupSSE = setupSSEListener(setDataEntriesMap, aggregateAndSort);
-    const cleanupChrome = setupChromeListener(setDataEntriesMap, sortWithChromeData);
+    const cleanupSSE = setupSSEListener(setDataEntriesMap);
+    const cleanupChrome = setupChromeListener(setDataEntriesMap);
 
     // Clean up SSE and Chrome listeners on unmount
     return () => {

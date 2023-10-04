@@ -1,4 +1,4 @@
-import { IOtelData, DataEntriesMap, IAggregatedSortedData} from '../../../types/types';
+import { IOtelData, DataEntriesMap, IDataEntry} from '../../../types/types';
 
 const nameFilteringConfig = {
   excludeStartPaths: ['/?key='],
@@ -34,7 +34,7 @@ export function updateName(name:string):string {
 }
 
 
-export function updateEntry(dataEntriesMap:DataEntriesMap, keyName:string, incomingData:IOtelData): IAggregatedSortedData{
+export function updateEntry(dataEntriesMap:DataEntriesMap, keyName:string, incomingData:IOtelData): IDataEntry{
 
   let {name, method, traceId, startTime, endTime, status, protocol} = incomingData;
 
@@ -86,7 +86,7 @@ export function createEntry(keyName:string, incomingData:IOtelData){
   return newEntry;
 }
 
-export function sortDataEntriesMap(prevDataEntriesMap: DataEntriesMap, newEntry:[string, IAggregatedSortedData]): DataEntriesMap{
+export function sortDataEntriesMap(prevDataEntriesMap: DataEntriesMap, newEntry:[string, IDataEntry]): DataEntriesMap{
   const entries = Array.from(prevDataEntriesMap.entries());
   entries.push(newEntry);
  

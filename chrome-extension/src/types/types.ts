@@ -16,11 +16,11 @@ export interface IOtelData {
     name: string
 }
 
-export type DataEntriesMap = Map<string, IAggregatedSortedData>; 
+export type DataEntriesMap = Map<string, IDataEntry>; 
 
 export type SetDataEntriesMap = Dispatch<SetStateAction<DataEntriesMap>>;
 
-export interface IAggregatedSortedData {
+export interface IDataEntry {
   traceId?: string,
   type?: string, 
   rendering: string | null,
@@ -41,3 +41,5 @@ export interface IChartJSData {
   labels: string[],
   backgroundColors: string[]
 }
+
+export type DataSource = 'openTelemetry' | 'chrome'
